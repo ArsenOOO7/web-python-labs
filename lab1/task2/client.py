@@ -16,7 +16,7 @@ class Client:
         self.__client.connect((Client.SERVER_HOST, Client.SERVER_PORT))
         self.__client.send(self.__name.encode("utf-8"))
         self.runThreads()
-    
+        
     def disconnect(self):
         self.__client.close()
 

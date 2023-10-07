@@ -14,7 +14,7 @@ class Server:
         self.__serverSocket = server_socket
         self.__clients = []
         print("Chat room is ready...")
-        # self.receive()
+        self.listener()
     
     def getServerSocket(self):
         return self.__serverSocket
@@ -28,23 +28,28 @@ class Server:
         client_socket = client.getClientSocket()
         client_name = client.getName();
         while True:
-            try:
-                client_message = client_socket.recv(1024).decode('utf-8')
-                self.broadcast(Formatter.formatMessage(client_name, client_message))
-            except:
+            client_message = client_socket.recv(1024).decode('utf-8')
+            if client_message:
+                if len(client_message.strip()) > 0:
+                    self.broadcast(Formatter.formatMessage(client_name, client_message))
+            else:
                 self.broadcast(Formatter.exitMessage(client_name))
                 self.removeClient(client)
-                client_socket.disconnect()
+                client_socket.close()
                 print(str(datetime.now()) + " User left: " + client_name)
                 break
 
-    # def receive(self):
-    #     while True:
-    #         client_socket, addr = self.__serverSocket.accept()
-    #         name = client_socket.recv(1024).decode('utf-8')
-    #         clientObj = Client(client_socket, addr, name)
-    #         self.addClient(clientObj)
-    #         print(str(datetime.now()) + " New user: " + name)
+    def listener(self):
+        while True:
+            try:
+                client_socket, addr = self.__serverSocket.accept()
+                name = client_socket.recv(1024).decode('utf-8')
+                clientObj = Client(client_socket, addr, name)
+                self.addClient(clientObj)
+                print(str(datetime.now()) + " New user: " + name)
+            except:
+                self.__serverSocket.close()
+                break
     
     def removeClient(self, client):
             self.__clients.remove(client)
@@ -53,21 +58,6 @@ class Server:
         print(message)
         for client in self.__clients:
             client.sendMessage(message)
-
-class JoinListener(threading.Thread):
-    def __init__(self, server: Server):
-        threading.Thread.__init__(self)
-        # self.daemon = True
-        self.__server = server
-
-    def run(self):
-        server_socket = self.__server.getServerSocket()
-        while True:
-            client_socket, addr = server_socket.accept()
-            name = client_socket.recv(1024).decode('utf-8')
-            clientObj = Client(client_socket, addr, name)
-            self.__server.addClient(clientObj)
-            print(str(datetime.now()) + " New user: " + name)
 
 class Client:
     def __init__(self, client_socket, addr, name) -> None:
@@ -109,6 +99,4 @@ class Formatter:
         return Formatter.EXIT_TEMPLATE.format(client_name)
 
 if(__name__ == "__main__"):
-    server = Server()
-    joinListener = JoinListener(server)
-    joinListener.start()
+    Server()
