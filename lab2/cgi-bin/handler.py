@@ -35,6 +35,7 @@ for key in key_set:
         mark += 1 if right_answer == value else 0
     text += "</p>"
     print(text)
+    question += 1
 
 seventh = form_data.getvalue('seventh')
 print(f"<p>Total points: {mark}</p>")
