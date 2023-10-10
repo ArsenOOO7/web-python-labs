@@ -25,13 +25,13 @@ for key in key_set:
 
     text = f"<p> {question}. "
     if type(right_answer) == list:
-        text += ",".join(value)
+        text += html.escape(",".join(value))
         points = 1 / len(right_answer)
         for variant in value:
             if variant in right_answer:
                 mark += points
     else:
-        text += value
+        text += html.escape(value)
         mark += 1 if right_answer == value else 0
     text += "</p>"
     print(text)
