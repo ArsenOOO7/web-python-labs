@@ -20,11 +20,11 @@ mark = 0
 question = 1
 print("<p> You answers: </p>")
 for key in key_set: 
-    value = form_data.getvalue(key)
+    value = form_data.getvalue(key, "Unanswered")
     right_answer = right_answers[key]
 
     text = f"<p> {question}. "
-    if type(right_answer) == list:
+    if type(right_answer) == list and type(value) == list:
         text += html.escape(",".join(value))
         points = 1 / len(right_answer)
         for variant in value:
