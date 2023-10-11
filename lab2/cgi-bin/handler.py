@@ -1,7 +1,15 @@
 #!/usr/bin/env python3
 import cgi
 import html
+import os
+from http.cookies import SimpleCookie
 
+cookie = SimpleCookie(os.environ.get("HTTP_COOKIE"))
+
+counter = int(cookie["counter"].value) if "counter" in cookie.keys() else 0
+
+counter += 1
+print(f"Set-cookie: counter={counter}")
 print("Content-type:text/html\r\n\r\n")
 
 form_data = cgi.FieldStorage()
@@ -47,3 +55,5 @@ if seventh == 'java':
         print("Not a good job...")
 else:
     print("Good job!")
+
+print("<p><a href='index.py'>Go back</a></p>")
