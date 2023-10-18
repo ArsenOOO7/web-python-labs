@@ -1,27 +1,42 @@
-from flask import Flask, render_template, request
-import os, datetime
+import datetime
+import os
+
+from flask import Flask, render_template, request, redirect
 
 app = Flask(__name__)
 
-my_skills = ['Java', 'PHP', 'C++' 'Spring Boot', 'Laravel', 'PostgreSQL', 'MySQL',
+my_skills = ['Java', 'PHP', 'C++', 'Spring Boot', 'Laravel', 'PostgreSQL', 'MySQL',
              'Elasticsearch', 'JavaScript', 'Angular', 'Python', 'Docker']
+
 
 @app.route("/")
 @app.route("/home")
 def home():
     return render("home")
+
+
 @app.route("/about")
 def about():
     return render("about")
+
 
 @app.route("/contacts")
 def contacts():
     return render("contacts")
 
+
 @app.route("/skills")
-@app.route("/skills/<int:id>")
+@app.route("/skills/<id>")
 def skills(id=None):
-    return render("skills")
+    info = [os.name, datetime.datetime.now(), request.user_agent]
+    skill_name = None
+    if id:
+        try:
+            skill_name = id if my_skills[my_skills.index(id)] == id else 'Undefined'
+        except ValueError:
+            skill_name = 'Undefined!'
+    return render_template("skills.html",
+                           skills=my_skills, skill_name=skill_name, data=info, total_len=len(my_skills))
 
 def render(template):
     info = [os.name, datetime.datetime.now(), request.user_agent]

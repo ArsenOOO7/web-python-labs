@@ -1,7 +1,39 @@
 {% extends 'base.html' %}
 
+{% block title %}
+Skills
+{% endblock %}
+
 {% block content %}
 
+<h1>My skills</h1>
+<ul class="list-group">
+    {% if skill_name %}
+        <li class="list-group-item">{{ skill_name }}</li>
+    {% else %}
+    {% for skill in skills %}
+        <li class="list-group-item">{{ skill }}</li>
+    {% endfor %}
+        <li class="list-group-item">Total size: {{ total_len }}</li>
+    {% endif %}
+</ul>
 
+<br>
+
+<form id="find_skill" class="row d-flex justify-content-center w-50 gap-3">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-10">
+            <input type="text" class="form-control" id="skill" name="skill" placeholder="Enter skill name" required>
+        </div>
+    </div>
+    <div class="row d-flex justify-content-center">
+        <div class="col-auto">
+            <button class="btn btn-primary">Submit</button>
+        </div>
+    </div>
+</form>
+<br>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
 {% endblock %}
