@@ -8,6 +8,12 @@ app = Flask(__name__)
 my_skills = ['Java', 'PHP', 'C++', 'Spring Boot', 'Laravel', 'PostgreSQL', 'MySQL',
              'Elasticsearch', 'JavaScript', 'Angular', 'Python', 'Docker']
 
+menu = {
+    'Home': 'home',
+    'About': 'about',
+    'Contacts': 'contacts',
+    'Skills': 'skills'
+}
 
 @app.route("/")
 @app.route("/home")
@@ -36,11 +42,11 @@ def skills(id=None):
         except ValueError:
             skill_name = 'Undefined!'
     return render_template("skills.html",
-                           skills=my_skills, skill_name=skill_name, data=info, total_len=len(my_skills))
+                           skills=my_skills, skill_name=skill_name, data=info, total_len=len(my_skills), menu=menu)
 
 def render(template):
     info = [os.name, datetime.datetime.now(), request.user_agent]
-    return render_template(template + ".html", data=info)
+    return render_template(template + ".html", data=info, menu=menu)
 
 
 if __name__ == '__main__':
