@@ -23,7 +23,7 @@ def login_handle():
                 session['user']['login'] = login_value
                 return redirect('/info')
         session['login_error'] = 'Invalid credentials'
-        return url_for('login')
+        return redirect(url_for('login'))
 
 
 @app.route('/info')
