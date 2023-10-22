@@ -12,7 +12,8 @@ menu = {
 
 authorized_menu = {
     'Login': ['login', False],
-    'Logout': ['logout', True]
+    'Logout': ['logout', True],
+    'Information': ['info', True]
 }
 
 
