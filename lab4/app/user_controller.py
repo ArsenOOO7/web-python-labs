@@ -37,6 +37,7 @@ def info():
 @app.route('/logout')
 def logout():
     session.clear()
+    session['logout'] = 'You have successfully logged out!'
     return redirect(url_for('login'))
 
 
