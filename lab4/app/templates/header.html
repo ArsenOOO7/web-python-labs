@@ -11,6 +11,15 @@
                     <a href="{{ url_for(path) }}" class="nav-link text-white">{{ name }}</a>
                 </li>
                 {% endfor %}
+
+                {% set logged = session.get('user') is not none %}
+                {% for name, req in authorized_menu.items() %}
+                {% if req[1] == logged %}
+                    <li class="nav-item">
+                        <a href="{{ url_for(req[0]) }}" class="nav-link text-white">{{ name }}</a>
+                    </li>
+                {% endif %}
+                {% endfor %}
             </ul>
         </div>
     </div>

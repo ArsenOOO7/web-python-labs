@@ -1,10 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'base.html' %}
+{% block title %}
+Sign in
+{% endblock %}
+{% block content %}
+<div style="height: 100%; display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 1rem">
+
+    <h1>Sign in</h1>
+    <form action="{{ url_for('loginHandle')}}" method="post" class="row d-flex justify-content-center w-25 gap-3 needs-validation" novalidate>
+         <div class="row d-flex justify-content-center">
+            <div class="col-md-10">
+                <input type="text" class="form-control" name="login" id="login" placeholder="Login" required>
+            </div>
+        </div>
+
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-10">
+                <input type="text" class="form-control" name="password" id="password" placeholder="Password" required>
+            </div>
+        </div>
+
+        <div class="row d-flex justify-content-center">
+            <div class="col-auto">
+                <button class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </form>
+
+</div>
+{% endblock %}
