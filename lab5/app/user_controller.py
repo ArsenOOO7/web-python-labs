@@ -1,13 +1,18 @@
 from app import app
 from app.common.common import render
-from .forms import LoginForm
+from .forms import LoginForm, ChangePassword
 from flask import request, session, redirect, make_response, url_for, flash
 import json
 
 
 @app.route('/login', methods=['GET'])
 def login():
-    return render('user/login', login_form=LoginForm())
+    login_form = LoginForm()
+    if 'login_form_login_errors' in session:
+        login_form.login.errors = session.pop('login_form_login_errors')
+    if 'login_form_password_errors' in session:
+        login_form.password.errors = session.pop('login_form_password_errors')
+    return render('user/login', login_form=login_form)
 
 
 @app.route('/login', methods=['POST'])
@@ -29,7 +34,9 @@ def login_handle():
                     return redirect(url_for("info"))
             flash("Invalid credentials.", category="danger")
             return redirect(url_for('login'))
-    return render("user/login", login_form=login_form)
+    session['login_form_login_errors'] = login_form.login.errors
+    session['login_form_password_errors'] = login_form.password.errors
+    return redirect(url_for('login'))
 
 
 @app.route('/info')
@@ -37,7 +44,10 @@ def info():
     if session.get('user') is None:
         return redirect(url_for('login'))
     cookies = request.cookies.items()
-    return render('user/info', cookies=cookies)
+    change_password_form = ChangePassword()
+    if 'form_cp_errors' in session:
+        change_password_form.new_password.errors = session.pop('form_cp_errors')
+    return render('user/info', cookies=cookies, change_password_form=change_password_form)
 
 
 @app.route('/logout')
@@ -84,14 +94,18 @@ def clear_cookie(cookie_name=None):
 
 @app.route('/change_password', methods=['POST'])
 def change_password():
-    new_password = request.form.get('new_password')
-    user_login = session['user']['login']
-    with open('resources/users.json', 'r') as file:
-        data = json.load(file)
-    data[user_login]['password'] = new_password
+    change_password_form = ChangePassword()
+    if change_password_form.validate_on_submit():
+        new_password = change_password_form.data
+        user_login = session['user']['login']
+        with open('resources/users.json', 'r') as file:
+            data = json.load(file)
+        data[user_login]['password'] = new_password
 
-    with open('resources/users.json', 'w') as file:
-        json.dump(data, file)
+        with open('resources/users.json', 'w') as file:
+            json.dump(data, file)
 
-    session['password_changed'] = "You successfully changed your password!"
+        flash("You successfully changed your password!", category="success")
+        return redirect(url_for('info'))
+    session['form_cp_errors'] = change_password_form.new_password.errors
     return redirect(url_for('info'))
