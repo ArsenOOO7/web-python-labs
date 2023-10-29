@@ -19,7 +19,7 @@ class LoginForm(FlaskForm):
 
 
 class ChangePassword(FlaskForm):
-    new_password = PasswordField("New password",
+    new_password = PasswordField("New Password",
                                  render_kw={"placeholder": "New password..."},
                                  validators=[
                                      DataRequired(message="Password cannot be empty."),

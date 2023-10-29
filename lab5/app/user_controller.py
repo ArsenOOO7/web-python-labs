@@ -12,12 +12,15 @@ def login():
         login_form.login.errors = session.pop('login_form_login_errors')
     if 'login_form_password_errors' in session:
         login_form.password.errors = session.pop('login_form_password_errors')
+    if 'login_form_login_value' in session:
+        login_form.login.data = session.pop('login_form_login_value')
     return render('user/login', login_form=login_form)
 
 
 @app.route('/login', methods=['POST'])
 def login_handle():
     login_form = LoginForm()
+    session['login_form_login_value'] = login_form.login.data
     if login_form.validate_on_submit():
         with open('resources/users.json', 'r') as users:
             login_value = login_form.login.data
@@ -30,6 +33,7 @@ def login_handle():
                     if login_form.remember.data:
                         session['user'] = user_data
                         session['user']['login'] = login_value
+                        session.pop('login_form_login_value')
                     flash("You successfully logged in.", category="success")
                     return redirect(url_for("info"))
             flash("Invalid credentials.", category="danger")
@@ -97,7 +101,7 @@ def clear_cookie(cookie_name=None):
 def change_password():
     change_password_form = ChangePassword()
     if change_password_form.validate_on_submit():
-        new_password = change_password_form.data
+        new_password = change_password_form.new_password.data
         user_login = session['user']['login']
         with open('resources/users.json', 'r') as file:
             data = json.load(file)
@@ -105,7 +109,6 @@ def change_password():
 
         with open('resources/users.json', 'w') as file:
             json.dump(data, file)
-
         flash("You successfully changed your password!", category="success")
         return redirect(url_for('info'))
     session['form_cp_errors'] = change_password_form.new_password.errors
