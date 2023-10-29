@@ -1,29 +1,35 @@
 from app import app
 from app.common.common import render
-from flask import request, session, redirect, make_response, url_for
+from .forms import LoginForm
+from flask import request, session, redirect, make_response, url_for, flash
 import json
 
 
 @app.route('/login', methods=['GET'])
 def login():
-    return render('user/login')
+    return render('user/login', login_form=LoginForm())
 
 
 @app.route('/login', methods=['POST'])
 def login_handle():
-    login_value = request.form.get('login')
-    password = request.form.get('password')
-    with open('resources/users.json', 'r') as users:
-        json_data = json.load(users)
-        if json_data.get(login_value) is not None:
-            user_data = json_data[login_value]
-            if user_data['password'] == password:
-                del user_data['password']
-                session['user'] = user_data
-                session['user']['login'] = login_value
-                return redirect('/info')
-        session['login_error'] = 'Invalid credentials'
-        return redirect(url_for('login'))
+    login_form = LoginForm()
+    if login_form.validate_on_submit():
+        with open('resources/users.json', 'r') as users:
+            login_value = login_form.login.data
+            password = login_form.password.data
+            json_data = json.load(users)
+            if json_data.get(login_value) is not None:
+                user_data = json_data[login_value]
+                if user_data['password'] == password:
+                    del user_data['password']
+                    if login_form.remember.data:
+                        session['user'] = user_data
+                        session['user']['login'] = login_value
+                    flash("You successfully logged in.", category="success")
+                    return redirect(url_for("info"))
+            flash("Invalid credentials.", category="danger")
+            return redirect(url_for('login'))
+    return render("user/login", login_form=login_form)
 
 
 @app.route('/info')
@@ -59,7 +65,7 @@ def clear_cookie(cookie_name=None):
         session['cookie_deleted'] = f"You have successfully deleted all cookies"
         response = make_response(redirect(url_for('info')))
         for cookie in request.cookies.keys():
-            if cookie is not 'session':
+            if cookie != 'session':
                 response.delete_cookie(cookie)
         return response
 
