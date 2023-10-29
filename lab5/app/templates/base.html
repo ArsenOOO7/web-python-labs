@@ -9,19 +9,17 @@
 <body class="d-flex flex-column min-vh-100 h-100">
 {% include 'header.html' %}
 
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, text in messages %}
+            <div class="alert alert-{{ category }} mt-4" role="alert">
+                {{ text }}
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
 
-
-{% block content %}
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, text in messages %}
-                <div class="alert alert-{{ category }} mt-4" role="alert">
-                    {{ text }}
-                </div>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
-{% endblock %}
+{% block content %}{% endblock %}
 {% include 'footer.html' %}
 </body>
 </html>
