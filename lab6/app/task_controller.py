@@ -1,4 +1,4 @@
-from flask import redirect, url_for, request
+from flask import redirect, url_for, request, flash
 
 from app import *
 from app.common.common import render, check_logged
@@ -21,9 +21,16 @@ def add_task():
     if add_task_form.validate_on_submit():
         task_name = add_task_form.name.data
         description = add_task_form.description.data
+
+        existing_task = Task.query.filter(Task.name == task_name).first()
+        if existing_task is not None:
+            flash("There is the Task with this name.", category="danger")
+            return redirect(url_for('add_task'))
+
         task = Task(name=task_name, description=description)
         data_base.session.add(task)
         data_base.session.commit()
+        flash(f"You have successfully created task {task_name}", category='success')
         return redirect(url_for('tasks'))
     return render('tasks/add_task', form=add_task_form)
 
@@ -54,10 +61,17 @@ def update_task(id=None):
     name = update_form.name.data
     description = update_form.description.data
     status = Status[update_form.status.data]
+
+    existing_task = data_base.session.query(Task).filter(Task.name == name).first()
+    if existing_task is not None and existing_task.id != task.id:
+        flash("There is the Task with this name.", category="danger")
+        return redirect(url_for('add_task'))
+
     task.name = name
     task.description = description
     task.status = status
     data_base.session.commit()
+    flash("You have successfully updated task", category='success')
     return redirect(url_for('tasks'))
 
 
@@ -70,4 +84,5 @@ def delete_task(id=None):
     task = data_base.get_or_404(Task, id)
     data_base.session.delete(task)
     data_base.session.commit()
+    flash(f"You have successfully deleted task {task.name}", category='success')
     return redirect(url_for('tasks'))
