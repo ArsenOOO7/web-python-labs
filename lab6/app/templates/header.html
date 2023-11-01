@@ -1,0 +1,26 @@
+<nav class="navbar navbar-expand-lg bg-dark">
+    <div class="container">
+        <a href="" class="navbar-brand text-white">
+            <img src="{{ url_for('static', filename='images/pnu_logo.png') }}" alt="" width="70" height="60">
+            Portfolio
+        </a>
+        <div class="navbar-collapse collapse justify-content-end" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                {% for name, path in menu.items() %}
+                <li class="nav-item">
+                    <a href="{{ url_for(path) }}" class="nav-link text-white">{{ name }}</a>
+                </li>
+                {% endfor %}
+
+                {% set logged = session.get('user') is not none %}
+                {% for name, req in authorized_menu.items() %}
+                {% if req[1] == logged %}
+                    <li class="nav-item">
+                        <a href="{{ url_for(req[0]) }}" class="nav-link text-white">{{ name }}</a>
+                    </li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</nav>
