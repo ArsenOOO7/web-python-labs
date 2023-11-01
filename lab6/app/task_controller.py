@@ -1,7 +1,7 @@
-from flask import redirect, url_for, request, flash
+from flask import redirect, url_for, request, flash, session
 
 from app import *
-from app.common.common import render, check_logged
+from app.common.common import render
 from app.domain.Task import Task, Status
 from app.forms import AddTask, UpdateTask
 
@@ -14,10 +14,11 @@ def tasks():
 
 @app.route('/tasks/add', methods=['GET', 'POST'])
 def add_task():
+    if session.get('user') is None:
+        return redirect(url_for('login'))
     add_task_form = AddTask()
     if request.method == 'GET':
         return render('tasks/add_task', form=add_task_form)
-    check_logged()
     if add_task_form.validate_on_submit():
         task_name = add_task_form.name.data
         description = add_task_form.description.data
@@ -37,7 +38,8 @@ def add_task():
 
 @app.route('/tasks/<int:id>', methods=['GET'])
 def get_task(id=None):
-    check_logged()
+    if session.get('user') is None:
+        return redirect(url_for('login'))
     if id is None:
         return redirect(url_for('tasks'))
 
@@ -49,7 +51,8 @@ def get_task(id=None):
 
 @app.route('/tasks/<int:id>', methods=['POST'])
 def update_task(id=None):
-    check_logged()
+    if session.get('user') is None:
+        return redirect(url_for('login'))
     if id is None:
         return redirect(url_for('tasks'))
 
@@ -77,7 +80,8 @@ def update_task(id=None):
 
 @app.route('/tasks/<int:id>/delete')
 def delete_task(id=None):
-    check_logged()
+    if session.get('user') is None:
+        return redirect(url_for('login'))
     if id is None:
         return redirect(url_for('tasks'))
 
