@@ -4,6 +4,7 @@ from app.common.common import render
 my_skills = ['Java', 'PHP', 'C++', 'Spring Boot', 'Laravel', 'PostgreSQL', 'MySQL',
              'Elasticsearch', 'JavaScript', 'Angular', 'Python', 'Docker']
 
+
 @app.route("/")
 @app.route("/home")
 def home():
