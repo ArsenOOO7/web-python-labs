@@ -19,4 +19,5 @@ class Task(data_base.Model):
     __tablename__ = 'task'
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String, unique=True, nullable=False)
+    description: Mapped[str] = mapped_column(String, nullable=True)
     status: Mapped[str] = mapped_column(SQLEnum(Status), nullable=False, default=Status.TODO)

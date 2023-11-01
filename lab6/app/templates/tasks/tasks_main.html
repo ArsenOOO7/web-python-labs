@@ -20,6 +20,7 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
+                    <th scope="col">Description</th>
                     <th scope="col">Status</th>
                 </tr>
                 </tr>
@@ -29,6 +30,7 @@
                     <tr>
                         <th scope="row">{{ loop.index }}</th>
                         <td>{{ task.name }}</td>
+                        <td><span style="max-width: 10rem; display: inline-block;" class="text-truncate">{{ task.description }}</span></td>
                         <td>{{ task.status.value }}</td>
                         {% if session.get('user') != None %}
                             <td>

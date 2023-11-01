@@ -20,7 +20,8 @@ def add_task():
     check_logged()
     if add_task_form.validate_on_submit():
         task_name = add_task_form.name.data
-        task = Task(name=task_name)
+        description = add_task_form.description.data
+        task = Task(name=task_name, description=description)
         data_base.session.add(task)
         data_base.session.commit()
         return redirect(url_for('tasks'))
@@ -35,6 +36,7 @@ def get_task(id=None):
 
     task = data_base.get_or_404(Task, id)
     update_form = UpdateTask()
+    update_form.status.default = task.status.value
     return render('tasks/update_task', task=task, form=update_form)
 
 
@@ -50,8 +52,10 @@ def update_task(id=None):
         return render('tasks/update_task', task=task, form=update_form)
 
     name = update_form.name.data
+    description = update_form.description.data
     status = Status[update_form.status.data]
     task.name = name
+    task.description = description
     task.status = status
     data_base.session.commit()
     return redirect(url_for('tasks'))

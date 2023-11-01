@@ -19,7 +19,22 @@
             </div>
             <div class="row d-flex justify-content-center">
                 <div class="col-md-10">
-                    {{ render_field(form.status, class='form-select', value=task.status.value) }}
+                    <textarea class="form-control" name="{{ form.description.name }}" id="{{ form.description.id }}"
+                              cols="30" rows="10">
+                        {{ task.description }}
+                    </textarea>
+                </div>
+            </div>
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-10">
+                    <select class='form-select' name="{{ form.status.name }}" id="{{ form.status.id }}">
+                        {% for choices in form.status.choices %}
+                            <option value="{{ choices[0] }}" {% if task.status.name == choices[0] %}
+                                    selected {% endif %}>
+                                {{ choices[1] }}
+                            </option>
+                        {% endfor %}
+                    </select>
                 </div>
             </div>
             <div class="row d-flex justify-content-center">

@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, TextAreaField
 from wtforms.validators import DataRequired, Length
 
 from app.domain.Task import Status
@@ -36,6 +36,7 @@ class AddTask(FlaskForm):
                        validators=[
                            DataRequired(message="Task name is required.")
                        ])
+    description = TextAreaField("Description", render_kw={"placeholder": "Description..."})
 
 
 class UpdateTask(FlaskForm):
@@ -44,4 +45,5 @@ class UpdateTask(FlaskForm):
                        validators=[
                            DataRequired(message="Task name is required.")
                        ])
+    description = TextAreaField("Description", render_kw={"placeholder": "Description..."})
     status = SelectField("Status", choices=Status.get_dropdown_values())
