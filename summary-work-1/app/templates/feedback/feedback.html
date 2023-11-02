@@ -47,7 +47,7 @@
                 <tbody>
                 {% for feedback in feedbacks %}
                     <tr>
-                        <th scope="row">{{ loop.index }}</th>=
+                        <th scope="row">{{ loop.index }}</th>
                         <td><span style="max-width: 10rem; display: inline-block;"
                                   class="text-truncate">{{ feedback.feedback }}</span></td>
                         <td>{{ readable(feedback.satisfaction.value) }}</td>
