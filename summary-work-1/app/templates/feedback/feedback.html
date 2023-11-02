@@ -55,6 +55,15 @@
                         <td>{{ readable(feedback.satisfaction.value) }}</td>
                         <td>{% if feedback.user != None %}{{ feedback.user }}{% else %}#{% endif %}</td>
                         <td>{% if feedback.created_at != None %}{{ feedback.created_at }}{% else %}#{% endif %}</td>
+                        {% if session.get('user') != None %}
+                            <td>
+                                <a href="{{ url_for('delete_feedback', id=feedback.id) }}">
+                                    <button class="btn btn-blue">
+                                        Delete
+                                    </button>
+                                </a>
+                            </td>
+                        {% endif %}
                     </tr>
                 {% endfor %}
                 </tbody>

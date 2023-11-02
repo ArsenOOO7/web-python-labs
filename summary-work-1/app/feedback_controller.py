@@ -25,6 +25,7 @@ def add_feedback():
     entity = Feedback(feedback=feedback, satisfaction=satisfaction, user=user)
     data_base.session.add(entity)
     data_base.session.commit()
+    flash(f"You have successfully added new feedback!", category="success")
     return redirect(url_for('feedback'))
 
 
@@ -39,4 +40,5 @@ def delete_feedback(id=None):
     feedback = data_base.get_or_404(Feedback, id)
     data_base.session.delete(feedback)
     data_base.session.commit()
+    flash(f"You have successfully removed feedback with id {feedback.id}!", category="danger")
     return redirect(url_for('feedback'))
