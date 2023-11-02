@@ -42,6 +42,8 @@
                     <th scope="col">#</th>
                     <th scope="col">Comment</th>
                     <th scope="col">Satisfaction</th>
+                    <th scope="col">User</th>
+                    <th scope="col">Published at</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -51,6 +53,8 @@
                         <td><span style="max-width: 10rem; display: inline-block;"
                                   class="text-truncate">{{ feedback.feedback }}</span></td>
                         <td>{{ readable(feedback.satisfaction.value) }}</td>
+                        <td>{% if feedback.user != None %}{{ feedback.user }}{% else %}#{% endif %}</td>
+                        <td>{% if feedback.created_at != None %}{{ feedback.created_at }}{% else %}#{% endif %}</td>
                     </tr>
                 {% endfor %}
                 </tbody>

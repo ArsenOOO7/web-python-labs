@@ -2,7 +2,7 @@ from app import app, data_base
 from app.common.common import render, to_readable
 from .domain.Feedback import Satisfaction, Feedback
 from .forms import AddFeedback
-from flask import redirect, url_for, request, flash, session
+from flask import redirect, url_for, flash, session
 
 
 @app.route('/feedback', methods=['GET'])
@@ -21,7 +21,22 @@ def add_feedback():
     feedback = form.feedback.data
     satisfaction = Satisfaction[form.satisfaction.data]
 
-    entity = Feedback(feedback=feedback, satisfaction=satisfaction)
+    user = None if session.get('user') is None else session['user']['login']
+    entity = Feedback(feedback=feedback, satisfaction=satisfaction, user=user)
     data_base.session.add(entity)
+    data_base.session.commit()
+    return redirect(url_for('feedback'))
+
+
+@app.route('/feedback/delete/<int:id>', methods=['GET'])
+def delete_feedback(id=None):
+    if id is None:
+        return redirect(url_for('feedback'))
+
+    if session.get('user') is None:
+        return redirect(url_for('login'))
+
+    feedback = data_base.get_or_404(Feedback, id)
+    data_base.session.delete(feedback)
     data_base.session.commit()
     return redirect(url_for('feedback'))
