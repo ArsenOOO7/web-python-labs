@@ -1,8 +1,10 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, TextAreaField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, TextAreaField, RadioField
 from wtforms.validators import DataRequired, Length
 
+from app.domain.Feedback import Satisfaction
 from app.domain.Task import Status
+from app.common import to_readable
 
 
 class LoginForm(FlaskForm):
@@ -47,3 +49,15 @@ class UpdateTask(FlaskForm):
                        ])
     description = TextAreaField("Description", render_kw={"placeholder": "Description..."})
     status = SelectField("Status", choices=Status.get_dropdown_values())
+
+class AddFeedback(FlaskForm):
+    feedback = TextAreaField("Feedback",
+                             render_kw={'placeholder': 'Give your feedback...'},
+                             validators=[
+                                 DataRequired(message="Feedback is required.")
+                             ])
+    satisfaction = RadioField("Satisfaction",
+                              choices=[(satisfaction.name, to_readable(satisfaction.value)) for satisfaction in Satisfaction],
+                              validators=[
+                                  DataRequired(message="Select your level of satisfaction.")
+                              ])

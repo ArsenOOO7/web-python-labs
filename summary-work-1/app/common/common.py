@@ -8,7 +8,8 @@ menu = {
     'About': 'about',
     'Contacts': 'contacts',
     'Skills': 'skills',
-    'Tasks': 'tasks'
+    'Tasks': 'tasks',
+    'Feedback': 'feedback'
 }
 
 authorized_menu = {
@@ -26,3 +27,7 @@ def render(template: str | list[str], **kwargs):
         template += ".html"
 
     return render_template(template, data=info, menu=menu, authorized_menu=authorized_menu, **kwargs)
+
+
+def to_readable(value: str):
+    return value.replace("_", " ").lower().capitalize()

@@ -14,3 +14,4 @@ migrate = Migrate(app, data_base)
 from app import main_controller
 from app import task_controller
 from app import user_controller
+from app import feedback_controller

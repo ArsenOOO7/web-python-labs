@@ -1,4 +1,7 @@
 {% macro render_field(field) %}
+    {% if kwargs['add_label'] %}
+        <label class="{{ kwargs['label_class'] }}">{{ field.label }}</label>
+    {% endif %}
     {{ field(**kwargs)| safe }}
     {% for error in field.errors %}
         <div class="text-danger">
