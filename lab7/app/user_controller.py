@@ -1,6 +1,6 @@
 from app import app
 from app.common.common import render
-from .forms import LoginForm, ChangePassword
+from .forms import LoginForm, ChangePassword, RegisterForm
 from flask import request, session, redirect, make_response, url_for, flash
 import json
 
@@ -41,6 +41,17 @@ def login_handle():
     session['login_form_login_errors'] = login_form.login.errors
     session['login_form_password_errors'] = login_form.password.errors
     return redirect(url_for('login'))
+
+
+@app.route('/register', methods=['GET'])
+def register():
+    register_form = RegisterForm()
+    return render('user/register', form=register_form)
+
+
+@app.route('/register_handle', methods=['POST'])
+def register_handle():
+    pass
 
 
 @app.route('/info')

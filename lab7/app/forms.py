@@ -1,10 +1,48 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, TextAreaField, RadioField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, TextAreaField, RadioField, \
+    EmailField, DateField, FileField
 from wtforms.validators import DataRequired, Length
 
 from app.domain.Feedback import Satisfaction
 from app.domain.Task import Status
 from app.common import to_readable
+
+
+class RegisterForm(FlaskForm):
+    username = StringField("Username",
+                           render_kw={'placeholder': 'Username...'},
+                           validators=[
+                               DataRequired(message="Username is required.")
+                           ])
+    first_name = StringField("First name",
+                             render_kw={'placeholder': 'First name...'},
+                             validators=[
+                                 DataRequired(message="First name is required.")
+                             ])
+    last_name = StringField("Last name",
+                            render_kw={'placeholder': 'Last name...'},
+                            validators=[
+                                DataRequired(message="Last name is required.")
+                            ])
+    email = EmailField('Email',
+                       render_kw={'placeholder': 'Email...'},
+                       validators=[
+                           DataRequired(message="Email is required.")
+                       ])
+    password = PasswordField('Password',
+                             render_kw={'placeholder': 'Password...'},
+                             validators=[
+                                 DataRequired(message="Last name is required.")
+                             ])
+    confirm_password = PasswordField('Confirm password',
+                                     render_kw={'placeholder': 'Confirm password...'},
+                                     validators=[
+                                         DataRequired(message="Confirm password is required.")
+                                     ])
+    birth_date = DateField('Birth date',
+                           render_kw={'placeholder': 'Birth date...'})
+    user_image = FileField('Avatar',
+                           render_kw={'placeholder': 'Avatar...', 'accept': '.jpg, .jpeg, .png'})
 
 
 class LoginForm(FlaskForm):
@@ -50,6 +88,7 @@ class UpdateTask(FlaskForm):
     description = TextAreaField("Description", render_kw={"placeholder": "Description..."})
     status = SelectField("Status", choices=Status.get_dropdown_values())
 
+
 class AddFeedback(FlaskForm):
     feedback = TextAreaField("Feedback",
                              render_kw={'placeholder': 'Give your feedback...'},
@@ -57,7 +96,8 @@ class AddFeedback(FlaskForm):
                                  DataRequired(message="Feedback is required.")
                              ])
     satisfaction = RadioField("Satisfaction",
-                              choices=[(satisfaction.name, to_readable(satisfaction.value)) for satisfaction in Satisfaction],
+                              choices=[(satisfaction.name, to_readable(satisfaction.value)) for satisfaction in
+                                       Satisfaction],
                               validators=[
                                   DataRequired(message="Select your level of satisfaction.")
                               ])
