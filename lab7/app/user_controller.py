@@ -1,6 +1,6 @@
 from app import app, data_base
 from app.common.common import render
-from .domain.User import User
+from .domain.User import User, UserDetails
 from .forms import LoginForm, ChangePassword, RegisterForm
 from flask import request, session, redirect, make_response, url_for, flash
 import json
@@ -23,22 +23,21 @@ def login_handle():
     login_form = LoginForm()
     session['login_form_login_value'] = login_form.login.data
     if login_form.validate_on_submit():
-        with open('resources/users.json', 'r') as users:
-            login_value = login_form.login.data
-            password = login_form.password.data
-            json_data = json.load(users)
-            if json_data.get(login_value) is not None:
-                user_data = json_data[login_value]
-                if user_data['password'] == password:
-                    del user_data['password']
-                    if login_form.remember.data:
-                        session['user'] = user_data
-                        session['user']['login'] = login_value
-                        session.pop('login_form_login_value')
-                    flash("You successfully logged in.", category="success")
-                    return redirect(url_for("info"))
+        login_value = login_form.login.data
+        password = login_form.password.data
+
+        user = User.query.filter(username=login_value).first()
+        if not user or not user.verify_password(password):
             flash("Invalid credentials.", category="danger")
             return redirect(url_for('login'))
+
+        if login_form.remember.data:
+            user_details = UserDetails.createUserDetails(user)
+            session['user'] = user_details
+            session.pop('login_form_login_value')
+            flash("You successfully logged in.", category="success")
+            return redirect(url_for("info"))
+
     session['login_form_login_errors'] = login_form.login.errors
     session['login_form_password_errors'] = login_form.password.errors
     return redirect(url_for('login'))
