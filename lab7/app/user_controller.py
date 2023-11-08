@@ -51,7 +51,12 @@ def register():
 
 @app.route('/register_handle', methods=['POST'])
 def register_handle():
-    pass
+    register_form = RegisterForm()
+    if not register_form.validate_on_submit():
+        return render('user/register', form=register_form)
+
+    flash(f"You successfully created an account {register_form.username.data}!", category='success')
+    return redirect(url_for('login'))
 
 
 @app.route('/info')
