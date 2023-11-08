@@ -89,7 +89,7 @@
             </thead>
             <tbody>
             {% for cookie, value in cookies %}
-                {% if cookie != 'session' %}
+                {% if cookie != 'session' and cookie != 'remember_token' %}
                     <tr>
                         <th scope="row">{{ loop.index }}</th>
                         <td>{{ cookie }}</td>

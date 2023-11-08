@@ -118,7 +118,7 @@ def clear_cookie(cookie_name=None):
     if request.method == "POST":
         response = make_response(redirect(url_for('info')))
         for cookie in request.cookies.keys():
-            if cookie != 'session':
+            if cookie != 'session' and cookie != 'remember_token':
                 response.delete_cookie(cookie)
         flash("You have successfully deleted all cookies", category="success")
         return response
