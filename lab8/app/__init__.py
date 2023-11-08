@@ -10,6 +10,8 @@ data_base = SQLAlchemy(app)
 
 migrate = Migrate(app, data_base)
 login_manager = LoginManager(app)
+login_manager.login_view = 'login'
+login_manager.login_message_category = 'info'
 
 from app import main_controller
 from app import task_controller

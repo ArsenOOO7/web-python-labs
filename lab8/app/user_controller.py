@@ -1,5 +1,5 @@
 from flask import request, session, redirect, make_response, url_for, flash
-from flask_login import login_user, current_user
+from flask_login import login_user, current_user, login_required, logout_user
 
 from app import app, data_base
 from app.common.common import render
@@ -9,6 +9,8 @@ from .forms import LoginForm, ChangePassword, RegisterForm
 
 @app.route('/login', methods=['GET'])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('info'))
     login_form = LoginForm()
     if 'login_form_login_errors' in session:
         login_form.login.errors = session.pop('login_form_login_errors')
@@ -74,9 +76,8 @@ def register_handle():
 
 
 @app.route('/info')
+@login_required
 def info():
-    if not current_user.is_authenticated:
-        return redirect(url_for('login'))
     cookies = request.cookies.items()
     change_password_form = ChangePassword()
     if 'form_cp_errors' in session:
@@ -91,13 +92,15 @@ def users():
 
 
 @app.route('/logout')
+@login_required
 def logout():
-    session.clear()
+    logout_user()
     flash('You have successfully logged out!', category="success")
     return redirect(url_for('login'))
 
 
 @app.route("/cookie", methods=['POST'])
+@login_required
 def add_cookie():
     cookie_name = request.form.get('cookie_name')
     cookie_value = request.form.get('cookie_value')
@@ -110,6 +113,7 @@ def add_cookie():
 
 @app.route('/clear_cookie', methods=['POST'])
 @app.route('/clear_cookie/<cookie_name>', methods=['GET'])
+@login_required
 def clear_cookie(cookie_name=None):
     if request.method == "POST":
         response = make_response(redirect(url_for('info')))
@@ -134,9 +138,8 @@ def clear_cookie(cookie_name=None):
 
 
 @app.route('/change_password', methods=['POST'])
+@login_required
 def change_password():
-    if not current_user.is_authenticated:
-        return redirect(url_for('login'))
     change_password_form = ChangePassword()
     if change_password_form.validate_on_submit():
         new_password = change_password_form.new_password.data

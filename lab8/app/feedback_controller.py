@@ -1,10 +1,10 @@
-from flask_login import current_user
+from flask import redirect, url_for, flash
+from flask_login import current_user, login_required
 
 from app import app, data_base
 from app.common.common import render, to_readable
 from .domain.Feedback import Satisfaction, Feedback
 from .forms import AddFeedback
-from flask import redirect, url_for, flash, session
 
 
 @app.route('/feedback', methods=['GET'])
@@ -32,12 +32,10 @@ def add_feedback():
 
 
 @app.route('/feedback/delete/<int:id>', methods=['GET'])
+@login_required
 def delete_feedback(id=None):
     if id is None:
         return redirect(url_for('feedback'))
-
-    if not current_user.is_authenticated:
-        return redirect(url_for('login'))
 
     feedback = data_base.get_or_404(Feedback, id)
     data_base.session.delete(feedback)

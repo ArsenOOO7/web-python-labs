@@ -1,5 +1,5 @@
 from flask import redirect, url_for, request, flash, session
-from flask_login import current_user
+from flask_login import current_user, login_required
 
 from app import *
 from app.common.common import render
@@ -14,9 +14,8 @@ def tasks():
 
 
 @app.route('/tasks/add', methods=['GET', 'POST'])
+@login_required
 def add_task():
-    if not current_user.is_authenticated:
-        return redirect(url_for('login'))
     add_task_form = AddTask()
     if request.method == 'GET':
         return render('tasks/add_task', form=add_task_form)
@@ -38,9 +37,8 @@ def add_task():
 
 
 @app.route('/tasks/<int:id>', methods=['GET'])
+@login_required
 def get_task(id=None):
-    if not current_user.is_authenticated:
-        return redirect(url_for('login'))
     if id is None:
         return redirect(url_for('tasks'))
 
@@ -51,9 +49,8 @@ def get_task(id=None):
 
 
 @app.route('/tasks/<int:id>', methods=['POST'])
+@login_required
 def update_task(id=None):
-    if not current_user.is_authenticated:
-        return redirect(url_for('login'))
     if id is None:
         return redirect(url_for('tasks'))
 
@@ -80,9 +77,8 @@ def update_task(id=None):
 
 
 @app.route('/tasks/<int:id>/delete')
+@login_required
 def delete_task(id=None):
-    if not current_user.is_authenticated:
-        return redirect(url_for('login'))
     if id is None:
         return redirect(url_for('tasks'))
 
