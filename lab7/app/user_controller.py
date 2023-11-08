@@ -1,6 +1,6 @@
 from app import app, data_base
 from app.common.common import render
-from .domain.User import User, UserDetails
+from .domain.User import User
 from .forms import LoginForm, ChangePassword, RegisterForm
 from flask import request, session, redirect, make_response, url_for, flash
 import json
@@ -26,14 +26,13 @@ def login_handle():
         login_value = login_form.login.data
         password = login_form.password.data
 
-        user = User.query.filter(username=login_value).first()
+        user = User.query.filter(User.username == login_value).first()
         if not user or not user.verify_password(password):
             flash("Invalid credentials.", category="danger")
             return redirect(url_for('login'))
 
         if login_form.remember.data:
-            user_details = UserDetails.createUserDetails(user)
-            session['user'] = user_details
+            session['user'] = user.create_user_details()
             session.pop('login_form_login_value')
             flash("You successfully logged in.", category="success")
             return redirect(url_for("info"))
@@ -63,7 +62,7 @@ def register_handle():
     birth_date = register_form.birth_date.data
 
     user = User(username=username, first_name=first_name, last_name=last_name, email=email, birth_date=birth_date)
-    user.password(password)
+    user.user_password = password
 
     data_base.session.add(user)
     data_base.session.commit()

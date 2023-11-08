@@ -17,28 +17,22 @@ class User(data_base.Model):
     image_file_name: Mapped[str] = mapped_column(String(200), nullable=True)
 
     @property
-    def password(self):
+    def user_password(self):
         raise AttributeError('You cannot read password')
 
-    @password.setter
-    def password(self, password):
-        self.password = generate_password_hash(password)
+    @user_password.setter
+    def user_password(self, new_password):
+        self.password = generate_password_hash(new_password)
 
     def verify_password(self, password):
         return check_password_hash(self.password, password)
 
-
-class UserDetails:
-    def __init__(self, login, first_name, last_name, email, birth_date, image_file_name):
-        self.login = login
-        self.first_name = login
-        self.last_name = login
-        self.email = login
-        self.birth_date = login
-        self.image_file_name = login
-
-    @staticmethod
-    def createUserDetails(user: User):
-        user_details = UserDetails(user.username, user.first_name, user.last_name, user.email, user.birth_date,
-                                   user.image_file_name)
-        return user_details
+    def create_user_details(self):
+        return {
+            'login': self.username,
+            'first_name': self.first_name,
+            'last_name': self.last_name,
+            'birth_date': self.birth_date,
+            'email': self.email,
+            'phone_number': '+1000000000'
+        }

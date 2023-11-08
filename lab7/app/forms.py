@@ -39,21 +39,19 @@ class RegisterForm(FlaskForm):
                                      render_kw={'placeholder': 'Confirm password...'},
                                      validators=[
                                          DataRequired(message="Confirm password is required."),
-                                         EqualTo(password.name)
+                                         EqualTo('password')
                                      ])
     birth_date = DateField('Birth date',
                            render_kw={'placeholder': 'Birth date...'})
     user_image = FileField('Avatar',
                            render_kw={'placeholder': 'Avatar...', 'accept': '.jpg, .jpeg, .png'})
 
-    @staticmethod
-    def validate_username(field):
-        if User.query.filter(username=field.data).first():
+    def validate_username(self, field):
+        if User.query.filter(User.username == field.data).first():
             raise ValidationError('Username already exists.')
 
-    @staticmethod
-    def validate_email(field):
-        if User.query.filter(email=field.data).first():
+    def validate_email(self, field):
+        if User.query.filter(User.email == field.data).first():
             raise ValidationError('Email already exists.')
 
 
