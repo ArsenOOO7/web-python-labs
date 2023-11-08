@@ -1,3 +1,5 @@
+from flask_login import current_user
+
 from app import app, data_base
 from app.common.common import render, to_readable
 from .domain.Feedback import Satisfaction, Feedback
@@ -34,7 +36,7 @@ def delete_feedback(id=None):
     if id is None:
         return redirect(url_for('feedback'))
 
-    if session.get('user') is None:
+    if not current_user.is_authenticated:
         return redirect(url_for('login'))
 
     feedback = data_base.get_or_404(Feedback, id)

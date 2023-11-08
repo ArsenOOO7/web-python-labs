@@ -1,4 +1,5 @@
 from flask import request, session, redirect, make_response, url_for, flash
+from flask_login import login_user, current_user
 
 from app import app, data_base
 from app.common.common import render
@@ -32,6 +33,7 @@ def login_handle():
             return redirect(url_for('login'))
 
         if login_form.remember.data:
+            login_user(user, remember=True)
             session['user'] = user.create_user_details()
             session.pop('login_form_login_value')
             flash("You successfully logged in.", category="success")
@@ -44,7 +46,7 @@ def login_handle():
 
 @app.route('/register', methods=['GET'])
 def register():
-    if session.get('user') is not None:
+    if current_user.is_authenticated:
         return redirect(url_for('info'))
     register_form = RegisterForm()
     return render('user/register', form=register_form)
@@ -74,7 +76,7 @@ def register_handle():
 
 @app.route('/info')
 def info():
-    if session.get('user') is None:
+    if not current_user.is_authenticated:
         return redirect(url_for('login'))
     cookies = request.cookies.items()
     change_password_form = ChangePassword()
@@ -134,6 +136,8 @@ def clear_cookie(cookie_name=None):
 
 @app.route('/change_password', methods=['POST'])
 def change_password():
+    if not current_user.is_authenticated:
+        return redirect(url_for('login'))
     change_password_form = ChangePassword()
     if change_password_form.validate_on_submit():
         new_password = change_password_form.new_password.data

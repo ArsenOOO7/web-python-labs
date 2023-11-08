@@ -1,4 +1,5 @@
 from flask import redirect, url_for, request, flash, session
+from flask_login import current_user
 
 from app import *
 from app.common.common import render
@@ -14,7 +15,7 @@ def tasks():
 
 @app.route('/tasks/add', methods=['GET', 'POST'])
 def add_task():
-    if session.get('user') is None:
+    if not current_user.is_authenticated:
         return redirect(url_for('login'))
     add_task_form = AddTask()
     if request.method == 'GET':
@@ -38,7 +39,7 @@ def add_task():
 
 @app.route('/tasks/<int:id>', methods=['GET'])
 def get_task(id=None):
-    if session.get('user') is None:
+    if not current_user.is_authenticated:
         return redirect(url_for('login'))
     if id is None:
         return redirect(url_for('tasks'))
@@ -51,7 +52,7 @@ def get_task(id=None):
 
 @app.route('/tasks/<int:id>', methods=['POST'])
 def update_task(id=None):
-    if session.get('user') is None:
+    if not current_user.is_authenticated:
         return redirect(url_for('login'))
     if id is None:
         return redirect(url_for('tasks'))
@@ -80,7 +81,7 @@ def update_task(id=None):
 
 @app.route('/tasks/<int:id>/delete')
 def delete_task(id=None):
-    if session.get('user') is None:
+    if not current_user.is_authenticated:
         return redirect(url_for('login'))
     if id is None:
         return redirect(url_for('tasks'))

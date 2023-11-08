@@ -1,11 +1,17 @@
 from flask_bcrypt import generate_password_hash, check_password_hash
+from flask_login import UserMixin
 from sqlalchemy import Integer, String
 from sqlalchemy.orm import Mapped, mapped_column
 
-from app import data_base
+from app import data_base, login_manager
 
 
-class User(data_base.Model):
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+
+class User(data_base.Model, UserMixin):
     __tablename__ = "users"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     username: Mapped[str] = mapped_column(String(20), unique=True, nullable=False, index=True)
