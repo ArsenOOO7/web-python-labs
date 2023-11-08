@@ -14,8 +14,8 @@
             </div>
             <div class="col-md-5">
                 <h1>
-                    {{ session['user']['name'] }}
-                    {{ session['user']['surname'] }}
+                    {{ current_user.first_name }}
+                    {{ current_user.last_name }}
                 </h1>
 
                 <div style="margin-top: 1rem; display: flex; flex-direction: column; gap: .2rem; align-items: center;">
@@ -23,20 +23,20 @@
                         <button disabled class="w-25 btn btn-outline-secondary" type="button" id="button-email">
                             Email
                         </button>
-                        <input disabled type="email" class="form-control" value="{{ session['user']['email'] }}">
+                        <input disabled type="email" class="form-control" value="{{ current_user.email }}">
                     </div>
                     <div class="input-group w-75">
                         <button disabled class="w-25 btn btn-outline-secondary" type="button" id="button-birthdate">
                             Birth Date
                         </button>
-                        <input disabled type="text" class="form-control" value="{{ session['user']['birth_date'] }}">
+                        <input disabled type="text" class="form-control" value="{{ current_user.birth_date }}">
                     </div>
                     <div class="input-group w-75">
                         <button disabled class="w-25 btn btn-outline-secondary" type="button" id="button-phone">
                             Phone number
                         </button>
                         <input disabled type="number" class="form-control"
-                               value="{{ session['user']['phone_number'] }}">
+                               value="+100000000">
                     </div>
                 </div>
             </div>

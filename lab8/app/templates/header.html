@@ -12,7 +12,7 @@
                 </li>
                 {% endfor %}
 
-                {% set logged = session.get('user') is not none %}
+                {% set logged = current_user.is_authenticated %}
                 {% for name, req in authorized_menu.items() %}
                 {% if req[1] == logged %}
                     <li class="nav-item">

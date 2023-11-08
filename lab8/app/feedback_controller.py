@@ -23,7 +23,7 @@ def add_feedback():
     feedback = form.feedback.data
     satisfaction = Satisfaction[form.satisfaction.data]
 
-    user = None if session.get('user') is None else session['user']['login']
+    user = None if not current_user.is_authenticated else current_user.username
     entity = Feedback(feedback=feedback, satisfaction=satisfaction, user=user)
     data_base.session.add(entity)
     data_base.session.commit()

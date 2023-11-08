@@ -34,7 +34,6 @@ def login_handle():
 
         if login_form.remember.data:
             login_user(user, remember=True)
-            session['user'] = user.create_user_details()
             session.pop('login_form_login_value')
             flash("You successfully logged in.", category="success")
             return redirect(url_for("info"))
@@ -141,7 +140,7 @@ def change_password():
     change_password_form = ChangePassword()
     if change_password_form.validate_on_submit():
         new_password = change_password_form.new_password.data
-        user_login = session['user']['login']
+        user_login = current_user.username
 
         user = User.query.filter(User.username == user_login).first()
         user.user_password = new_password
