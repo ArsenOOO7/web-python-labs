@@ -44,6 +44,8 @@ def login_handle():
 
 @app.route('/register', methods=['GET'])
 def register():
+    if session.get('user') is not None:
+        return redirect(url_for('info'))
     register_form = RegisterForm()
     return render('user/register', form=register_form)
 
@@ -79,6 +81,12 @@ def info():
     if 'form_cp_errors' in session:
         change_password_form.new_password.errors = session.pop('form_cp_errors')
     return render('user/info', cookies=cookies, change_password_form=change_password_form)
+
+
+@app.route('/users')
+def users():
+    all_users = [user.create_user_details() for user in User.query.all()]
+    return render('user/users', users=all_users)
 
 
 @app.route('/logout')

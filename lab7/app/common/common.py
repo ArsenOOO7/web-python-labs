@@ -13,6 +13,7 @@ menu = {
 }
 
 authorized_menu = {
+    'Users': ['users', True],
     'Login': ['login', False],
     'Register': ['register', False],
     'Information': ['info', True],
