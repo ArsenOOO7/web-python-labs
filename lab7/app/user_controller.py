@@ -1,9 +1,9 @@
+from flask import request, session, redirect, make_response, url_for, flash
+
 from app import app, data_base
 from app.common.common import render
 from .domain.User import User
 from .forms import LoginForm, ChangePassword, RegisterForm
-from flask import request, session, redirect, make_response, url_for, flash
-import json
 
 
 @app.route('/login', methods=['GET'])
@@ -130,12 +130,11 @@ def change_password():
     if change_password_form.validate_on_submit():
         new_password = change_password_form.new_password.data
         user_login = session['user']['login']
-        with open('resources/users.json', 'r') as file:
-            data = json.load(file)
-        data[user_login]['password'] = new_password
 
-        with open('resources/users.json', 'w') as file:
-            json.dump(data, file)
+        user = User.query.filter(User.username == user_login).first()
+        user.user_password = new_password
+        data_base.session.commit()
+
         flash("You successfully changed your password!", category="success")
         return redirect(url_for('info'))
     session['form_cp_errors'] = change_password_form.new_password.errors
