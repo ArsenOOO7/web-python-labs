@@ -1,11 +1,12 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, TextAreaField, RadioField, \
     EmailField, DateField, FileField
-from wtforms.validators import DataRequired, Length
+from wtforms.validators import DataRequired, Length, EqualTo, ValidationError
 
+from app.common import to_readable
 from app.domain.Feedback import Satisfaction
 from app.domain.Task import Status
-from app.common import to_readable
+from app.domain.User import User
 
 
 class RegisterForm(FlaskForm):
@@ -37,12 +38,23 @@ class RegisterForm(FlaskForm):
     confirm_password = PasswordField('Confirm password',
                                      render_kw={'placeholder': 'Confirm password...'},
                                      validators=[
-                                         DataRequired(message="Confirm password is required.")
+                                         DataRequired(message="Confirm password is required."),
+                                         EqualTo(password.name)
                                      ])
     birth_date = DateField('Birth date',
                            render_kw={'placeholder': 'Birth date...'})
     user_image = FileField('Avatar',
                            render_kw={'placeholder': 'Avatar...', 'accept': '.jpg, .jpeg, .png'})
+
+    @staticmethod
+    def validate_username(field):
+        if User.query.filter(username=field.data).first():
+            raise ValidationError('Username already exists.')
+
+    @staticmethod
+    def validate_email(field):
+        if User.query.filter(email=field.data).first():
+            raise ValidationError('Email already exists.')
 
 
 class LoginForm(FlaskForm):

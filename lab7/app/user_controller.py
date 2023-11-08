@@ -1,5 +1,6 @@
-from app import app
+from app import app, data_base
 from app.common.common import render
+from .domain.User import User
 from .forms import LoginForm, ChangePassword, RegisterForm
 from flask import request, session, redirect, make_response, url_for, flash
 import json
@@ -55,6 +56,18 @@ def register_handle():
     if not register_form.validate_on_submit():
         return render('user/register', form=register_form)
 
+    username = register_form.username.data
+    first_name = register_form.first_name.data
+    last_name = register_form.last_name.data
+    email = register_form.email.data
+    password = register_form.password.data
+    birth_date = register_form.birth_date.data
+
+    user = User(username=username, first_name=first_name, last_name=last_name, email=email, birth_date=birth_date)
+    user.password(password)
+
+    data_base.session.add(user)
+    data_base.session.commit()
     flash(f"You successfully created an account {register_form.username.data}!", category='success')
     return redirect(url_for('login'))
 
