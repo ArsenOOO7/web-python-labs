@@ -73,8 +73,7 @@ class LoginForm(FlaskForm):
     password = PasswordField("Password",
                              render_kw={"placeholder": "Password..."},
                              validators=[
-                                 DataRequired(message="Password cannot be empty."),
-                                 Length(min=4, max=10)
+                                 DataRequired(message="Password cannot be empty.")
                              ])
     remember = BooleanField("Remember", default=False)
 

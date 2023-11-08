@@ -11,7 +11,7 @@ class User(data_base.Model):
     username: Mapped[str] = mapped_column(String(20), unique=True, nullable=False, index=True)
     first_name: Mapped[str] = mapped_column(String(20), nullable=False)
     last_name: Mapped[str] = mapped_column(String(20), nullable=False)
-    password: Mapped[str] = mapped_column(String(120), nullable=False)
+    password: Mapped[str] = mapped_column(String(256), nullable=False)
     email: Mapped[str] = mapped_column(String(120), unique=True, nullable=False, index=True)
     birth_date: Mapped[str] = mapped_column(String(30), nullable=True)
     image_file_name: Mapped[str] = mapped_column(String(200), nullable=True)
