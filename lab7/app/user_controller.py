@@ -48,7 +48,7 @@ def register():
     return render('user/register', form=register_form)
 
 
-@app.route('/register_handle', methods=['POST'])
+@app.route('/register', methods=['POST'])
 def register_handle():
     register_form = RegisterForm()
     if not register_form.validate_on_submit():
