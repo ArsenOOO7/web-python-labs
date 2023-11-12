@@ -1,7 +1,8 @@
 from flask_bcrypt import generate_password_hash, check_password_hash
 from flask_login import UserMixin
-from sqlalchemy import Integer, String
+from sqlalchemy import Integer, String, DateTime
 from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.sql import func
 
 from app import data_base, login_manager
 
@@ -21,6 +22,8 @@ class User(data_base.Model, UserMixin):
     email: Mapped[str] = mapped_column(String(120), unique=True, nullable=False, index=True)
     birth_date: Mapped[str] = mapped_column(String(30), nullable=True)
     image_file_name: Mapped[str] = mapped_column(String(200), nullable=True)
+    about_me: Mapped[str] = mapped_column(String(500), nullable=True)
+    last_seen: Mapped[str] = mapped_column(DateTime, server_default=func.now(), nullable=False)
 
     @property
     def user_password(self):
@@ -39,6 +42,5 @@ class User(data_base.Model, UserMixin):
             'first_name': self.first_name,
             'last_name': self.last_name,
             'birth_date': self.birth_date,
-            'email': self.email,
-            'phone_number': '+1000000000'
+            'email': self.email
         }
