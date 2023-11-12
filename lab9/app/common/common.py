@@ -5,6 +5,8 @@ import uuid
 from PIL import Image
 from flask import request, render_template
 
+from config import IMAGES_DEFAULT_NAME, IMAGES_FOLDER
+
 menu = {
     'Home': 'home',
     'About': 'about',
@@ -39,8 +41,8 @@ def to_readable(value: str):
 
 
 def delete_file(file_name):
-    path = ('static', 'images', file_name)
-    if file_name != 'default.jpg' and os.path.exists(path):
+    path = os.path.join(IMAGES_FOLDER, file_name)
+    if file_name != IMAGES_DEFAULT_NAME and os.path.exists(path):
         os.remove(path)
 
 
@@ -51,7 +53,7 @@ def upload_file(file):
     filename, extension = file.filename.rsplit('.', 1)
     uuid_name = uuid.uuid4()
     secured_filename = f"{uuid_name}.{extension}"
-    path = os.path.join('app', 'static', 'images', secured_filename)
+    path = os.path.join(IMAGES_FOLDER, secured_filename)
 
     image = Image.open(file)
     image.thumbnail((512, 512))
