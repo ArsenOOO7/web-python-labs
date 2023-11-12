@@ -1,3 +1,5 @@
+import datetime
+
 from flask_bcrypt import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from sqlalchemy import Integer, String, DateTime
@@ -23,7 +25,7 @@ class User(data_base.Model, UserMixin):
     birth_date: Mapped[str] = mapped_column(String(30), nullable=True)
     image_file_name: Mapped[str] = mapped_column(String(200), nullable=True)
     about_me: Mapped[str] = mapped_column(String(500), nullable=True)
-    last_seen: Mapped[str] = mapped_column(DateTime, server_default=func.now(), nullable=False)
+    last_seen: Mapped[datetime.datetime] = mapped_column(DateTime, server_default=func.now(), nullable=False)
 
     @property
     def user_password(self):
@@ -42,5 +44,6 @@ class User(data_base.Model, UserMixin):
             'first_name': self.first_name,
             'last_name': self.last_name,
             'birth_date': self.birth_date,
-            'email': self.email
+            'email': self.email,
+            'last_seen': self.last_seen.strftime('%m/%d/%y %H:%M')
         }

@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from flask import request, session, redirect, make_response, url_for, flash
 from flask_login import login_user, current_user, login_required, logout_user
 
@@ -180,3 +182,14 @@ def change_password():
         return redirect(url_for('info'))
     session['form_cp_errors'] = change_password_form.new_password.errors
     return redirect(url_for('info'))
+
+
+@app.after_request
+def after_request(response):
+    if current_user:
+        current_user.last_seen = datetime.now()
+        try:
+            data_base.session.commit()
+        except:
+            flash(f"Error on updating last seen", category='danger')
+    return response

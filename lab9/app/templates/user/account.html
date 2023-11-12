@@ -38,6 +38,12 @@
                         </button>
                         <input disabled type="text" class="form-control" value="{{ current_user.birth_date }}">
                     </div>
+                    <div class="input-group w-75">
+                        <button disabled class="w-25 btn btn-outline-secondary" type="button" id="button-birthdate">
+                            Last seen
+                        </button>
+                        <input disabled type="text" class="form-control" value="{{ current_user.last_seen.strftime('%m/%d/%y %H:%M') }}">
+                    </div>
                 </div>
             </div>
         </div>
@@ -94,7 +100,6 @@
                     </button>
                 </div>
             </div>
-
         </form>
 
     </div>
