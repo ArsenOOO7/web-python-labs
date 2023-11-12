@@ -85,15 +85,29 @@ def info():
     return render('user/info', cookies=cookies, change_password_form=change_password_form)
 
 
-@app.route('/account')
+@app.route('/account', methods=['GET'])
 @login_required
 def account():
-    return render('user/account', form=UpdateUserForm())
+    form = UpdateUserForm()
+    form.about_me.data = current_user.about_me
+    return render('user/account', form=form)
 
 
-@app.route('/update', methods=['POST'])
+@app.route('/account', methods=['POST'])
 @login_required
-def update():
+def update_account():
+    form = UpdateUserForm()
+    if not form.validate_on_submit():
+        return render('user/account', form=form)
+
+    current_user.username = form.username.data
+    current_user.email = form.email.data
+    current_user.first_name = form.first_name.data
+    current_user.last_name = form.last_name.data
+    current_user.birth_date = form.birth_date.data
+    current_user.about_me = form.about_me.data
+    data_base.session.commit()
+
     return redirect(url_for('account'))
 
 

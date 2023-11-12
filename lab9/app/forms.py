@@ -1,3 +1,4 @@
+from flask_login import current_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, TextAreaField, RadioField, \
     EmailField, DateField, FileField
@@ -94,13 +95,15 @@ class UpdateUserForm(FlaskForm):
                            render_kw={'placeholder': 'Birth date...'})
     user_image = FileField('Avatar',
                            render_kw={'placeholder': 'Avatar...', 'accept': '.jpg, .jpeg, .png'})
+    about_me = TextAreaField('About me',
+                             render_kw={'placeholder': 'About me...'})
 
     def validate_username(self, field):
-        if User.query.filter(User.username == field.data).first():
+        if current_user.username != field.data and User.query.filter(User.username == field.data).first():
             raise ValidationError('Username already exists.')
 
     def validate_email(self, field):
-        if User.query.filter(User.email == field.data).first():
+        if current_user.email != field.data and User.query.filter(User.email == field.data).first():
             raise ValidationError('Email already exists.')
 
 
