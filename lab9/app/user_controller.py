@@ -85,6 +85,12 @@ def info():
     return render('user/info', cookies=cookies, change_password_form=change_password_form)
 
 
+@app.route('/account')
+@login_required
+def account():
+    return render('user/account')
+
+
 @app.route('/users')
 def users():
     all_users = [user.create_user_details() for user in User.query.all()]
