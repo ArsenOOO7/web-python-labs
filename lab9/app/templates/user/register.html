@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% from "macros/_formRender.html" import render_field %}
+{% block title %}
+    Sign up
+{% endblock %}
+{% block content %}
+    <div style="height: 100%; display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 1rem">
+
+        <h1>Sign up</h1>
+        <form action="{{ url_for('register_handle') }}" method="post"
+              class="row d-flex justify-content-center w-50 gap-3" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-5">
+                    {{ render_field(form.first_name, class='form-control') }}
+                </div>
+                <div class="col-md-5">
+                    {{ render_field(form.last_name, class='form-control') }}
+                </div>
+            </div>
+
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-10">
+                    {{ render_field(form.email, class='form-control') }}
+                </div>
+            </div>
+
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-10">
+                    {{ render_field(form.username, class='form-control') }}
+                </div>
+            </div>
+
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-5">
+                    {{ render_field(form.password, class='form-control') }}
+                </div>
+                <div class="col-md-5">
+                    {{ render_field(form.confirm_password, class='form-control') }}
+                </div>
+            </div>
+
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-10">
+                    {{ render_field(form.birth_date, class='form-control', add_label=True, label_class='form-label') }}
+                </div>
+            </div>
+
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-10">
+                    {{ render_field(form.user_image, class='form-control', add_label=True, label_class='form-label') }}
+                </div>
+            </div>
+
+            <div class="row d-flex justify-content-center">
+                <div class="col-auto">
+                    <button class="btn btn-primary">
+                        Submit
+                    </button>
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+{% endblock %}
