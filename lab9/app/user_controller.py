@@ -108,6 +108,7 @@ def update_account():
     current_user.about_me = form.about_me.data
     data_base.session.commit()
 
+    flash('You successfully updated your account details!', category='success')
     return redirect(url_for('account'))
 
 
