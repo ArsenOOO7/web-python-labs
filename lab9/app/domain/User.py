@@ -23,7 +23,7 @@ class User(data_base.Model, UserMixin):
     password: Mapped[str] = mapped_column(String(256), nullable=False)
     email: Mapped[str] = mapped_column(String(120), unique=True, nullable=False, index=True)
     birth_date: Mapped[str] = mapped_column(String(30), nullable=True)
-    image_file_name: Mapped[str] = mapped_column(String(200), nullable=True)
+    avatar_file: Mapped[str] = mapped_column(String(40), nullable=False, server_default='default.jpg', primary_key=False)
     about_me: Mapped[str] = mapped_column(String(500), nullable=True)
     last_seen: Mapped[datetime.datetime] = mapped_column(DateTime, server_default=func.now(), nullable=False)
 
