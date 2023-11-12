@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% from "macros/_formRender.html" import render_field %}
+{% block title %}
+    Information
+{% endblock %}
+{{ super() }}
+{% block content %}
+    <div class="container-fluid text-center mt-md-3">
+        <div class="row justify-content-center">
+            <div class="col-md-3">
+                <img style="width: 20rem; height: 20rem" class="rounded-circle img-fluid"
+                     src="https://cdn4.iconfinder.com/data/icons/e-commerce-181/512/477_profile__avatar__man_-512.png"
+                     alt="">
+            </div>
+            <div class="col-md-5">
+                <h1>
+                    {{ current_user.first_name }}
+                    {{ current_user.last_name }}
+                </h1>
+
+                <div style="margin-top: 1rem; display: flex; flex-direction: column; gap: .2rem; align-items: center;">
+                    <div class="input-group w-75">
+                        <button disabled class="w-25 btn btn-outline-secondary" type="button" id="button-email">
+                            Email
+                        </button>
+                        <input disabled type="email" class="form-control" value="{{ current_user.email }}">
+                    </div>
+                    <div class="input-group w-75">
+                        <button disabled class="w-25 btn btn-outline-secondary" type="button" id="button-birthdate">
+                            Birth Date
+                        </button>
+                        <input disabled type="text" class="form-control" value="{{ current_user.birth_date }}">
+                    </div>
+                    <div class="input-group w-75">
+                        <button disabled class="w-25 btn btn-outline-secondary" type="button" id="button-phone">
+                            Phone number
+                        </button>
+                        <input disabled type="number" class="form-control"
+                               value="+100000000">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div style="height: 100%; display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 1rem;">
+        <h1 class="mb-md-5">
+            Add cookie
+        </h1>
+        <form action="{{ url_for('add_cookie') }}" method="post"
+              class="row d-flex justify-content-center w-50 gap-3">
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-10">
+                    <input type="text" name="cookie_name" id="cookie_name" class="form-control"
+                           placeholder="Cookie name" required>
+                </div>
+            </div>
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-10">
+                    <input type="text" name="cookie_value" id="cookie_value" class="form-control"
+                           placeholder="Cookie value" required>
+                </div>
+            </div>
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-10">
+                    <input type="date" name="expires_at" id="expires_at" class="form-control"
+                           placeholder="Expires at" required>
+                </div>
+            </div>
+            <div class="row d-flex justify-content-center">
+                <div class="col-auto">
+                    <button class="btn btn-primary">
+                        Submit
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <hr>
+    <div class="container-sm w-50">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Cookie</th>
+                <th scope="col">Value</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for cookie, value in cookies %}
+                {% if cookie != 'session' and cookie != 'remember_token' %}
+                    <tr>
+                        <th scope="row">{{ loop.index }}</th>
+                        <td>{{ cookie }}</td>
+                        <td>{{ value }}</td>
+                        <td>
+                            <a href="{{ url_for('clear_cookie', cookie_name=cookie) }}">
+                                <button class="btn btn-dark">
+                                    Delete
+                                </button>
+                            </a>
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+        <p>
+            <form action="{{ url_for('clear_cookie') }}" method="post" class="text-center">
+                <button type="submit" class="btn btn-danger">Delete all</button>
+            </form>
+        </p>
+    </div>
+    <hr>
+    <p>
+    <div style="height: 100%; display: flex; justify-content: center; align-items: center; flex-direction: column">
+        <h1 class="mb-md-5">Change password</h1>
+        <form action="{{ url_for('change_password') }}" method="post"
+              style="display: flex; flex-direction: column; align-items: center">
+            {{ change_password_form.hidden_tag() }}
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-10">
+                    {{ render_field(change_password_form.new_password, class="form-control") }}
+                </div>
+            </div>
+            {{ change_password_form.submit() }}
+        </form>
+    </div>
+    </p>
+{% endblock %}
