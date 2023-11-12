@@ -178,6 +178,12 @@ def clear_cookie(cookie_name=None):
 def change_password():
     change_password_form = ChangePassword()
     if change_password_form.validate_on_submit():
+        old_password = change_password_form.old_password.data
+
+        if not current_user.verify_password(old_password):
+            flash('Incorrect old password.', category='danger')
+            return redirect(url_for('info'))
+
         new_password = change_password_form.new_password.data
         user_login = current_user.username
 

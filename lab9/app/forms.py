@@ -64,6 +64,7 @@ class RegisterForm(FlaskForm):
         if User.query.filter(User.email == field.data).first():
             raise ValidationError('Email already exists.')
 
+
 class UpdateUserForm(FlaskForm):
     username = StringField("Username",
                            render_kw={'placeholder': 'Username...'},
@@ -122,11 +123,15 @@ class LoginForm(FlaskForm):
 
 
 class ChangePassword(FlaskForm):
+    old_password = PasswordField('Old password',
+                                 render_kw={'placeholder': 'Old password...'})
     new_password = PasswordField("New Password",
                                  render_kw={"placeholder": "New password..."},
                                  validators=[
                                      DataRequired(message="Password cannot be empty."),
-                                     Length(min=4, max=10)
+                                     Regexp('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$', 0,
+                                            'Passwords must contain minimum eight characters, at least one uppercase '
+                                            'letter, one lowercase letter and one number!')
                                  ])
     submit = SubmitField("Submit", render_kw={"class": "btn btn-primary mt-md-3"})
 
