@@ -4,7 +4,7 @@ from flask import request, session, redirect, make_response, url_for, flash
 from flask_login import login_user, current_user, login_required, logout_user
 
 from app import app, data_base
-from app.common.common import render
+from app.common.common import render, upload_file, delete_file
 from .domain.User import User
 from .forms import LoginForm, ChangePassword, RegisterForm, UpdateUserForm
 
@@ -67,6 +67,8 @@ def register_handle():
     email = register_form.email.data
     password = register_form.password.data
     birth_date = register_form.birth_date.data
+    avatar_file = register_form.user_image.data
+    upload_file(avatar_file)
 
     user = User(username=username, first_name=first_name, last_name=last_name, email=email, birth_date=birth_date)
     user.user_password = password
@@ -108,6 +110,11 @@ def update_account():
     current_user.last_name = form.last_name.data
     current_user.birth_date = form.birth_date.data
     current_user.about_me = form.about_me.data
+
+    if form.user_image.data:
+        delete_file(current_user.avatar_file)
+        current_user.avatar_file = upload_file(form.user_image.data)
+
     data_base.session.commit()
 
     flash('You successfully updated your account details!', category='success')

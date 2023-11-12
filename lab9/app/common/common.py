@@ -1,7 +1,9 @@
-import os
 import datetime
+import os
+import uuid
 
-from flask import request, render_template, session, redirect, url_for
+from PIL import Image
+from flask import request, render_template
 
 menu = {
     'Home': 'home',
@@ -34,3 +36,24 @@ def render(template: str | list[str], **kwargs):
 
 def to_readable(value: str):
     return value.replace("_", " ").lower().capitalize()
+
+
+def delete_file(file_name):
+    path = ('static', 'images', file_name)
+    if file_name != 'default.jpg' and os.path.exists(path):
+        os.remove(path)
+
+
+def upload_file(file):
+    if not file:
+        return
+
+    filename, extension = file.filename.rsplit('.', 1)
+    uuid_name = uuid.uuid4()
+    secured_filename = f"{uuid_name}.{extension}"
+    path = os.path.join('app', 'static', 'images', secured_filename)
+
+    image = Image.open(file)
+    image.thumbnail((512, 512))
+    image.save(path)
+    return secured_filename
