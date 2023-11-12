@@ -18,6 +18,7 @@ authorized_menu = {
     'Register': ['register', False],
     'Information': ['info', True],
     'Account': ['account', True],
+    'Update': ['update', True],
     'Logout': ['logout', True]
 }
 

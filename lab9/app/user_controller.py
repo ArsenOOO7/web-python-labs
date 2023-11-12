@@ -4,7 +4,7 @@ from flask_login import login_user, current_user, login_required, logout_user
 from app import app, data_base
 from app.common.common import render
 from .domain.User import User
-from .forms import LoginForm, ChangePassword, RegisterForm
+from .forms import LoginForm, ChangePassword, RegisterForm, UpdateUserForm
 
 
 @app.route('/login', methods=['GET'])
@@ -88,7 +88,13 @@ def info():
 @app.route('/account')
 @login_required
 def account():
-    return render('user/account')
+    return render('user/account', form=UpdateUserForm())
+
+
+@app.route('/update', methods=['POST'])
+@login_required
+def update():
+    return redirect(url_for('account'))
 
 
 @app.route('/users')

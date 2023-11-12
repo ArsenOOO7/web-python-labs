@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
+{% from "macros/_formRender.html" import render_field %}
 {% block title %}
-    Information
+    Account
 {% endblock %}
 {{ super() }}
 {% block content %}
@@ -19,6 +20,13 @@
 
                 <div style="margin-top: 1rem; display: flex; flex-direction: column; gap: .2rem; align-items: center;">
                     <div class="input-group w-75">
+                        <button disabled class="w-25 btn btn-outline-secondary" type="button" id="button-phone">
+                            Username
+                        </button>
+                        <input disabled type="text" class="form-control"
+                               value="{{ current_user.username }}">
+                    </div>
+                    <div class="input-group w-75">
                         <button disabled class="w-25 btn btn-outline-secondary" type="button" id="button-email">
                             Email
                         </button>
@@ -30,15 +38,60 @@
                         </button>
                         <input disabled type="text" class="form-control" value="{{ current_user.birth_date }}">
                     </div>
-                    <div class="input-group w-75">
-                        <button disabled class="w-25 btn btn-outline-secondary" type="button" id="button-phone">
-                            Phone number
-                        </button>
-                        <input disabled type="number" class="form-control"
-                               value="+100000000">
-                    </div>
                 </div>
             </div>
         </div>
+    </div>
+    <hr>
+    <div style="height: 100%; display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 1rem">
+
+        <h1>Update</h1>
+        <form action="{{ url_for('register_handle') }}" method="post"
+              class="row d-flex justify-content-center w-50 gap-3" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-5">
+                    {{ render_field(form.first_name, class='form-control', value=current_user.first_name) }}
+                </div>
+                <div class="col-md-5">
+                    {{ render_field(form.last_name, class='form-control', value=current_user.last_name) }}
+                </div>
+            </div>
+
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-10">
+                    {{ render_field(form.email, class='form-control', value=current_user.email) }}
+                </div>
+            </div>
+
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-10">
+                    {{ render_field(form.username, class='form-control', value=current_user.username) }}
+                </div>
+            </div>
+
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-10">
+                    {{ render_field(form.birth_date, class='form-control', add_label=True, label_class='form-label', value=current_user.birth_date) }}
+                </div>
+            </div>
+
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-10">
+                    {{ render_field(form.user_image, class='form-control', add_label=True, label_class='form-label') }}
+                </div>
+            </div>
+
+            <div class="row d-flex justify-content-center">
+                <div class="col-auto">
+                    <button class="btn btn-primary">
+                        Submit
+                    </button>
+                </div>
+            </div>
+
+        </form>
+
     </div>
 {% endblock %}
