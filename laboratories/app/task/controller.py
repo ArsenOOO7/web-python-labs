@@ -1,11 +1,11 @@
-from flask import redirect, url_for, request, flash, session
-from flask_login import current_user, login_required
+from flask import redirect, url_for, request, flash
+from flask_login import login_required
 
 from app import data_base
 from app.common.common import render
 from app.domain.Task import Task, Status
-from app.forms import AddTask, UpdateTask
 from . import task_bp
+from .forms import AddTask, UpdateTask
 
 
 @task_bp.route('/tasks', methods=['GET'])
@@ -45,6 +45,7 @@ def get_task(id=None):
 
     task = data_base.get_or_404(Task, id)
     update_form = UpdateTask()
+    update_form.description.data = task.description
     update_form.status.default = task.status.value
     return render('update_task', task=task, form=update_form)
 
