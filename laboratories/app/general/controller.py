@@ -1,28 +1,28 @@
-from app import app
+from . import general_bp
 from app.common.common import render
 
 my_skills = ['Java', 'PHP', 'C++', 'Spring Boot', 'Laravel', 'PostgreSQL', 'MySQL',
              'Elasticsearch', 'JavaScript', 'Angular', 'Python', 'Docker']
 
 
-@app.route("/")
-@app.route("/home")
+@general_bp.route("/")
+@general_bp.route("/home")
 def home():
     return render("home")
 
 
-@app.route("/about")
+@general_bp.route("/about")
 def about():
     return render("about")
 
 
-@app.route("/contacts")
+@general_bp.route("/contacts")
 def contacts():
     return render("contacts")
 
 
-@app.route("/skills")
-@app.route("/skills/<id>")
+@general_bp.route("/skills")
+@general_bp.route("/skills/<id>")
 def skills(id=None):
     skill_name = None
     if id:

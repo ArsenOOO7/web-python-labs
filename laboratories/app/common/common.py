@@ -8,10 +8,10 @@ from flask import request, render_template
 from config import IMAGES_DEFAULT_NAME, IMAGES_FOLDER
 
 menu = {
-    'Home': 'home',
-    'About': 'about',
-    'Contacts': 'contacts',
-    'Skills': 'skills',
+    'Home': 'general.home',
+    'About': 'general.about',
+    'Contacts': 'general.contacts',
+    'Skills': 'general.skills',
     'Tasks': 'tasks',
     'Feedback': 'feedback'
 }
