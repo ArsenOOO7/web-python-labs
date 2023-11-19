@@ -9,7 +9,7 @@
 
     <div style="height: 100%; display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 1rem">
         <h1>Add Task</h1>
-        <form action="{{ url_for('add_task') }}" method="post"
+        <form action="{{ url_for('task.add_task') }}" method="post"
               class="row d-flex justify-content-center w-50 gap-3">
             {{ form.hidden_tag() }}
             <div class="row d-flex justify-content-center">

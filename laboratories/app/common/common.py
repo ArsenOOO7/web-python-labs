@@ -12,8 +12,8 @@ menu = {
     'About': 'general.about',
     'Contacts': 'general.contacts',
     'Skills': 'general.skills',
-    'Tasks': 'tasks',
-    'Feedback': 'feedback'
+    'Tasks': 'task.tasks',
+    'Feedback': 'feedback.feedback'
 }
 
 authorized_menu = {
