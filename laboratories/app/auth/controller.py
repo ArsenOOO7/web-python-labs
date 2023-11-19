@@ -4,10 +4,10 @@ from flask import session, redirect, url_for, flash
 from flask_login import login_user, current_user, login_required, logout_user
 
 from app import data_base
-from . import auth_bp
 from app.common.common import render, upload_file
 from app.domain.User import User
-from .forms import LoginForm, ChangePassword, RegisterForm
+from . import auth_bp
+from .forms import LoginForm, RegisterForm
 
 
 @auth_bp.route('/login', methods=['GET'])
@@ -88,30 +88,6 @@ def logout():
     logout_user()
     flash('You have successfully logged out!', category="success")
     return redirect(url_for('auth.login'))
-
-
-@auth_bp.route('/change_password', methods=['POST'])
-@login_required
-def change_password():
-    change_password_form = ChangePassword()
-    if change_password_form.validate_on_submit():
-        old_password = change_password_form.old_password.data
-
-        if not current_user.verify_password(old_password):
-            flash('Incorrect old password.', category='danger')
-            return redirect(url_for('user.account'))
-
-        new_password = change_password_form.new_password.data
-        user_login = current_user.username
-
-        user = User.query.filter(User.username == user_login).first()
-        user.user_password = new_password
-        data_base.session.commit()
-
-        flash("You successfully changed your password!", category="success")
-        return redirect(url_for('user.account'))
-    session['form_cp_errors'] = change_password_form.new_password.errors
-    return redirect(url_for('user.account'))
 
 
 @auth_bp.after_request

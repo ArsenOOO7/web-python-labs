@@ -1,12 +1,11 @@
-from flask import redirect, url_for, flash
+from flask import redirect, url_for, flash, session
 from flask_login import current_user, login_required
 
 from app import data_base
 from app.domain.User import User
 from app.common.common import render, upload_file, delete_file
 from . import user_bp
-from .forms import UpdateUserForm
-from app.auth.forms import ChangePassword
+from .forms import UpdateUserForm, ChangePassword
 
 
 @user_bp.route('/account', methods=['GET'])
@@ -46,3 +45,27 @@ def update_account():
 def users():
     all_users = [user.create_user_details() for user in User.query.all()]
     return render('users', users=all_users)
+
+
+@user_bp.route('/change_password', methods=['POST'])
+@login_required
+def change_password():
+    change_password_form = ChangePassword()
+    if change_password_form.validate_on_submit():
+        old_password = change_password_form.old_password.data
+
+        if not current_user.verify_password(old_password):
+            flash('Incorrect old password.', category='danger')
+            return redirect(url_for('user.account'))
+
+        new_password = change_password_form.new_password.data
+        user_login = current_user.username
+
+        user = User.query.filter(User.username == user_login).first()
+        user.user_password = new_password
+        data_base.session.commit()
+
+        flash("You successfully changed your password!", category="success")
+        return redirect(url_for('user.account'))
+    session['form_cp_errors'] = change_password_form.new_password.errors
+    return redirect(url_for('user.account'))

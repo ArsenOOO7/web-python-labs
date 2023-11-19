@@ -1,5 +1,4 @@
 from flask_wtf import FlaskForm
-from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, EmailField, DateField, FileField
 from wtforms.validators import DataRequired, EqualTo, ValidationError, Regexp
 
@@ -73,17 +72,3 @@ class LoginForm(FlaskForm):
                                  DataRequired(message="Password cannot be empty.")
                              ])
     remember = BooleanField("Remember", default=False)
-
-
-class ChangePassword(FlaskForm):
-    old_password = PasswordField('Old password',
-                                 render_kw={'placeholder': 'Old password...'})
-    new_password = PasswordField("New Password",
-                                 render_kw={"placeholder": "New password..."},
-                                 validators=[
-                                     DataRequired(message="Password cannot be empty."),
-                                     Regexp('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$', 0,
-                                            'Passwords must contain minimum eight characters, at least one uppercase '
-                                            'letter, one lowercase letter and one number!')
-                                 ])
-    submit = SubmitField("Submit", render_kw={"class": "btn btn-primary mt-md-3"})
