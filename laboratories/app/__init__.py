@@ -16,8 +16,10 @@ login_manager.login_view = 'login'
 login_manager.login_message_category = 'info'
 
 from .general import general_bp
+from .auth import auth_bp
 
 app.register_blueprint(general_bp)
+app.register_blueprint(auth_bp)
 
 # from app import main_controller
 from app import task_controller

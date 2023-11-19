@@ -18,8 +18,8 @@ menu = {
 
 authorized_menu = {
     'Users': ['users', True],
-    'Login': ['login', False],
-    'Register': ['register', False],
+    'Login': ['auth.login', False],
+    'Register': ['auth.register', False],
     'Information': ['info', True],
     'Account': ['account', True],
     'Logout': ['logout', True]

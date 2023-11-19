@@ -14,7 +14,7 @@ Sign in
     {{ super() }}
 
     <h1>Sign in</h1>
-    <form action="{{ url_for('login_handle')}}" method="post" class="row d-flex justify-content-center w-25 gap-3 needs-validation" novalidate>
+    <form action="{{ url_for('auth.login_handle')}}" method="post" class="row d-flex justify-content-center w-25 gap-3 needs-validation" novalidate>
         {{ login_form.hidden_tag() }}
         <div class="row d-flex justify-content-center">
             <div class="col-md-10">
