@@ -6,6 +6,7 @@ from app.domain.User import User
 from app.common.common import render, upload_file, delete_file
 from . import user_bp
 from .forms import UpdateUserForm
+from app.auth.forms import ChangePassword
 
 
 @user_bp.route('/account', methods=['GET'])
@@ -13,7 +14,8 @@ from .forms import UpdateUserForm
 def account():
     form = UpdateUserForm()
     form.about_me.data = current_user.about_me
-    return render('account', form=form)
+    change_password_form = ChangePassword()
+    return render('account', form=form, change_password_form=change_password_form)
 
 
 @user_bp.route('/account', methods=['POST'])
