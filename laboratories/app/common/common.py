@@ -48,7 +48,7 @@ def delete_file(file_name):
 
 def upload_file(file):
     if not file:
-        return
+        return False
 
     filename, extension = file.filename.rsplit('.', 1)
     uuid_name = uuid.uuid4()

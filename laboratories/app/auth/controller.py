@@ -69,10 +69,12 @@ def register_handle():
     password = register_form.password.data
     birth_date = register_form.birth_date.data
     avatar_file = register_form.user_image.data
-    upload_file(avatar_file)
+    avatar_path = upload_file(avatar_file)
 
     user = User(username=username, first_name=first_name, last_name=last_name, email=email, birth_date=birth_date)
     user.user_password = password
+    if avatar_path:
+        user.avatar_file = avatar_path
 
     data_base.session.add(user)
     data_base.session.commit()
