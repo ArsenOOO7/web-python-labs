@@ -1,20 +1,21 @@
 from flask import redirect, url_for, flash
 from flask_login import current_user, login_required
 
-from app import app, data_base
+from app import data_base
 from app.common.common import render, to_readable
 from app.domain.Feedback import Satisfaction, Feedback
+from . import feedback_bp
 from .forms import AddFeedback
 
 
-@app.route('/feedback', methods=['GET'])
+@feedback_bp.route('/feedback', methods=['GET'])
 def feedback():
     form = AddFeedback()
     feedbacks = Feedback.query.all()
     return render('feedback', form=form, feedbacks=feedbacks, readable=to_readable)
 
 
-@app.route('/feedback', methods=['POST'])
+@feedback_bp.route('/feedback', methods=['POST'])
 def add_feedback():
     form = AddFeedback()
     if not form.validate_on_submit():
@@ -31,7 +32,7 @@ def add_feedback():
     return redirect(url_for('feedback.feedback'))
 
 
-@app.route('/feedback/delete/<int:id>', methods=['GET'])
+@feedback_bp.route('/feedback/delete/<int:id>', methods=['GET'])
 @login_required
 def delete_feedback(id=None):
     if id is None:
