@@ -13,7 +13,7 @@ from .forms import LoginForm, ChangePassword, RegisterForm
 @auth_bp.route('/login', methods=['GET'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('info'))
+        return redirect(url_for('user.account'))
     login_form = LoginForm()
     if 'login_form_login_errors' in session:
         login_form.login.errors = session.pop('login_form_login_errors')
@@ -51,7 +51,7 @@ def login_handle():
 @auth_bp.route('/register', methods=['GET'])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for('info'))
+        return redirect(url_for('user.account'))
     register_form = RegisterForm()
     return render('register', form=register_form)
 
@@ -97,7 +97,7 @@ def change_password():
 
         if not current_user.verify_password(old_password):
             flash('Incorrect old password.', category='danger')
-            return redirect(url_for('info'))
+            return redirect(url_for('user.account'))
 
         new_password = change_password_form.new_password.data
         user_login = current_user.username
@@ -107,9 +107,9 @@ def change_password():
         data_base.session.commit()
 
         flash("You successfully changed your password!", category="success")
-        return redirect(url_for('info'))
+        return redirect(url_for('user.account'))
     session['form_cp_errors'] = change_password_form.new_password.errors
-    return redirect(url_for('info'))
+    return redirect(url_for('user.account'))
 
 
 @auth_bp.after_request

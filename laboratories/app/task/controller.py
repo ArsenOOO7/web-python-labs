@@ -54,7 +54,7 @@ def get_task(id=None):
 @login_required
 def update_task(id=None):
     if id is None:
-        return redirect(url_for('tasks'))
+        return redirect(url_for('task.tasks'))
 
     task = data_base.get_or_404(Task, id)
     update_form = UpdateTask()
