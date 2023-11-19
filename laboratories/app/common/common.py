@@ -20,7 +20,7 @@ authorized_menu = {
     'Users': ['user.users', True],
     'Login': ['auth.login', False],
     'Register': ['auth.register', False],
-    'Information': ['cookie.info', True],
+    'Cookies': ['cookie.info', True],
     'Account': ['user.account', True],
     'Logout': ['auth.logout', True]
 }
