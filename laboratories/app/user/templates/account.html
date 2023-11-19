@@ -53,7 +53,7 @@
     <div style="height: 100%; display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 1rem">
 
         <h1>Update</h1>
-        <form action="{{ url_for('update_account') }}" method="post"
+        <form action="{{ url_for('user.update_account') }}" method="post"
               class="row d-flex justify-content-center w-50 gap-3" enctype="multipart/form-data">
             {{ form.hidden_tag() }}
 
