@@ -41,7 +41,7 @@ def login_handle():
             login_user(user, remember=True)
             session.pop('login_form_login_value')
             flash("You successfully logged in.", category="success")
-            return redirect(url_for("cookie.info"))
+            return redirect(url_for("user.account"))
 
     session['login_form_login_errors'] = login_form.login.errors
     session['login_form_password_errors'] = login_form.password.errors
