@@ -18,11 +18,12 @@ login_manager.login_message_category = 'info'
 from .general import general_bp
 from .auth import auth_bp
 from .user import user_bp
+from .cookie import cookie_bp
 
 app.register_blueprint(general_bp)
 app.register_blueprint(auth_bp)
 app.register_blueprint(user_bp)
+app.register_blueprint(cookie_bp)
 
 from app import task_controller
-from app import user_controller
 from app import feedback_controller

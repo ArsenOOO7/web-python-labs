@@ -35,17 +35,17 @@ def login_handle():
         user = User.query.filter(User.username == login_value).first()
         if not user or not user.verify_password(password):
             flash("Invalid credentials.", category="danger")
-            return redirect(url_for('login'))
+            return redirect(url_for('auth.login'))
 
         if login_form.remember.data:
             login_user(user, remember=True)
             session.pop('login_form_login_value')
             flash("You successfully logged in.", category="success")
-            return redirect(url_for("info"))
+            return redirect(url_for("cookie.info"))
 
     session['login_form_login_errors'] = login_form.login.errors
     session['login_form_password_errors'] = login_form.password.errors
-    return redirect(url_for('login'))
+    return redirect(url_for('auth.login'))
 
 
 @auth_bp.route('/register', methods=['GET'])
@@ -77,7 +77,7 @@ def register_handle():
     data_base.session.add(user)
     data_base.session.commit()
     flash(f"You successfully created an account {register_form.username.data}!", category='success')
-    return redirect(url_for('login'))
+    return redirect(url_for('auth.login'))
 
 
 @auth_bp.route('/logout')
@@ -85,7 +85,7 @@ def register_handle():
 def logout():
     logout_user()
     flash('You have successfully logged out!', category="success")
-    return redirect(url_for('login'))
+    return redirect(url_for('auth.login'))
 
 
 @auth_bp.route('/change_password', methods=['POST'])

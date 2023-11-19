@@ -17,12 +17,12 @@ menu = {
 }
 
 authorized_menu = {
-    'Users': ['users', True],
+    'Users': ['user.users', True],
     'Login': ['auth.login', False],
     'Register': ['auth.register', False],
-    'Information': ['info', True],
-    'Account': ['account', True],
-    'Logout': ['logout', True]
+    'Information': ['cookie.info', True],
+    'Account': ['user.account', True],
+    'Logout': ['auth.logout', True]
 }
 
 

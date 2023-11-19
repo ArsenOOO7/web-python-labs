@@ -13,7 +13,7 @@ from .forms import UpdateUserForm
 def account():
     form = UpdateUserForm()
     form.about_me.data = current_user.about_me
-    return render('user/account', form=form)
+    return render('account', form=form)
 
 
 @user_bp.route('/account', methods=['POST'])
@@ -21,7 +21,7 @@ def account():
 def update_account():
     form = UpdateUserForm()
     if not form.validate_on_submit():
-        return render('user/account', form=form)
+        return render('account', form=form)
 
     current_user.username = form.username.data
     current_user.email = form.email.data
@@ -37,10 +37,10 @@ def update_account():
     data_base.session.commit()
 
     flash('You successfully updated your account details!', category='success')
-    return redirect(url_for('account'))
+    return redirect(url_for('user.account'))
 
 
 @user_bp.route('/users')
 def users():
     all_users = [user.create_user_details() for user in User.query.all()]
-    return render('user/users', users=all_users)
+    return render('users', users=all_users)
