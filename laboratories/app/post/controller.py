@@ -100,7 +100,8 @@ def delete_post(id=None):
 
     post = Post.query.get_or_404(id)
     if post.user_id == current_user.id:
-        Post.query.delete(id)
+        data_base.session.delete(post)
+        data_base.session.commit()
         flash('You successfully deleted ur post.', category='success')
     else:
         flash("You cannot delete this post!", category='danger')
