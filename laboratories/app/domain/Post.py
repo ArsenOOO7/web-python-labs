@@ -18,7 +18,7 @@ class Post(data_base.Model):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     title: Mapped[str] = mapped_column(String(128), nullable=False)
     text: Mapped[str] = mapped_column(String(255), nullable=False)
-    image: Mapped[str] = mapped_column(String(255), server_default='post_default.jpg')
+    image: Mapped[str] = mapped_column(String(255), server_default='post_default.png')
     enabled: Mapped[bool] = mapped_column(Boolean)
     created_at: Mapped[str] = mapped_column(DateTime, server_default=func.now(), nullable=False)
     type: Mapped[str] = mapped_column(Enumeration(PostType), nullable=False)

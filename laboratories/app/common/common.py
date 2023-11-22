@@ -22,6 +22,7 @@ authorized_menu = {
     'Register': ['auth.register', False],
     'Cookies': ['cookie.info', True],
     'Account': ['user.account', True],
+    'Posts': ['post.get_post', True],
     'Logout': ['auth.logout', True]
 }
 

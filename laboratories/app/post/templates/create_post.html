@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% from "macros/_formRender.html" import render_field %}
+{% block title %}
+    Create post
+{% endblock %}
+{% block content %}
+    <div style="height: 100%; display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 1rem">
+        <h1>Add Post</h1>
+        <form action="{{ url_for('post.create_post_handle') }}" method="post"
+              class="row d-flex justify-content-center w-50 gap-3" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-10">
+                    {{ render_field(form.title, class='form-control') }}
+                </div>
+            </div>
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-10">
+                    {{ render_field(form.text, class='form-control') }}
+                </div>
+            </div>
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-5">
+                    {{ render_field(form.type, class='form-select', add_label=True, label_class='form-label') }}
+                </div>
+            </div>
+            <div class="row d-flex justify-content-center">
+                <div class="col-auto mx-auto form-check text-center">
+                    {{ render_field(form.enabled, class='form-check-input', add_label=True, label_class='form-label') }}
+                </div>
+            </div>
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-10">
+                    {{ render_field(form.image, class='form-control', add_label=True, label_class='form-label') }}
+                </div>
+            </div>
+            <div class="row d-flex justify-content-center">
+                <div class="col-auto">
+                    <button class="btn btn-primary">
+                        Submit
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

@@ -7,7 +7,7 @@ IMAGES_DEFAULT_NAME = 'default.jpg'
 class Config:
     TESTING = False
     DEVELOPMENT = False
-    FLASK_DEBUG = False
+    DEBUG = False
     APP_SECRET_KEY = env.get('APP_SECRET') or b"secret"
     IMAGES_FOLDER = IMAGES_FOLDER
     IMAGES_DEFAULT_NAME = IMAGES_DEFAULT_NAME
@@ -28,7 +28,7 @@ class Config:
 
 class DevProfile(Config):
     DEVELOPMENT = True
-    FLASK_DEBUG = True
+    DEBUG = True
     SQLALCHEMY_DATABASE_URI = env.get('DEV_DATABASE_URI') or 'sqlite:///laboratory_work.db'
     ENV_NAME = 'development'
 

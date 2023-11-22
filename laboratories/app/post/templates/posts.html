@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% from "macros/_formRender.html" import render_field %}
+{% block title %}
+    Users
+{% endblock %}
+{% block content %}
+    {% if current_user.is_authenticated %}
+        <a href="{{ url_for('post.create_post') }}" role="button" tabindex="-1"
+           class="w-25 mx-auto mt-2 btn btn-primary">
+            Create post
+        </a>
+    {% endif %}
+    <div style="height: 100%; display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 1rem; margin-top: 2rem">
+        {% for post in posts %}
+            <div class="col">
+                <div class="card h-100" style="width: 20rem;">
+                    <img src="{{ url_for('post.static', filename='/images/' + post.image) }}" class="card-img-top"
+                         alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            {{ post.title }}
+                        </h5>
+                        <p class="card-text text-truncate truncate">
+                            {{ post.text }}
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <a href="{{ url_for('post.get_post', id=post.id) }}" role="button"
+                               tabindex="-1" class="btn btn-primary">
+                                More...
+                            </a>
+                            {% if current_user.is_authenticated %}
+                                {% if post.author.id == current_user.id %}
+                                    <a href="{{ url_for('post.update_post', id=post.id) }}"
+                                       role="button" tabindex="-1" class="btn btn-success">
+                                        Edit...
+                                    </a>
+                                    <a href="{{ url_for('post.delete_post', id=post.id) }}"
+                                       role="button" tabindex="-1" class="btn btn-danger">
+                                        Delete...
+                                    </a>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+    </div>
+{% endblock %}

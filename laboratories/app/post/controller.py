@@ -8,14 +8,14 @@ from . import post_bp
 from .forms import PostForm
 
 
-@post_bp.route("/", methods=['GET'])
+@post_bp.route("/create", methods=['GET'])
 @login_required
 def create_post():
     form = PostForm()
     return render('create_post', form=form)
 
 
-@post_bp.route("/", methods=['POST'])
+@post_bp.route("/create", methods=['POST'])
 @login_required
 def create_post_handle():
     form = PostForm()
@@ -36,13 +36,28 @@ def create_post_handle():
     data_base.session.add(post)
     data_base.session.commit()
 
-    flash("You successfylly created post!", category='success')
+    flash("You successfully created post!", category='success')
     return redirect(url_for('post.get_post'))
 
 
-@post_bp.route("/<int:id>", methods=['POST'])
+@post_bp.route("/<int:id>/update", methods=['GET'])
 @login_required
 def update_post(id=None):
+    if id is None:
+        return redirect(url_for('post.get_post'))
+
+    post = Post.query.get_or_404(id)
+    form = PostForm()
+    form.text.default = post.text
+    form.type.default = post.type.name
+    form.process()
+
+    return render('update_post', form=form, post=post)
+
+
+@post_bp.route("/<int:id>/update", methods=['POST'])
+@login_required
+def update_post_handle(id=None):
     if id is None:
         return redirect(url_for('post.get_post'))
 
@@ -53,7 +68,7 @@ def update_post(id=None):
 
     post.title = form.title.data
     post.text = form.text.data
-    post.type = form.type.data
+    post.type = PostType[form.type.data]
     post.enabled = form.enabled.data
 
     if form.image.data:
@@ -62,7 +77,7 @@ def update_post(id=None):
 
     data_base.session.commit()
     flash("You successfully updated your post!", category="success")
-    return redirect(url_for('task.get_post'))
+    return redirect(url_for('post.get_post'))
 
 
 @post_bp.route('/', methods=['GET'])
@@ -74,8 +89,7 @@ def get_post(id=None):
         return render('posts', posts=posts)
 
     post = Post.query.get_or_404(id)
-    form = PostForm()
-    return render('post', form=form, post=post)
+    return render('post', post=post)
 
 
 @post_bp.route('/<int:id>/delete')
