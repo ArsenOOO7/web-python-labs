@@ -17,6 +17,13 @@
                 </h1>
 
                 <div style="margin-top: 1rem; display: flex; flex-direction: column; gap: .2rem; align-items: center;">
+                     <div class="input-group w-75">
+                        <button disabled class="w-25 btn btn-outline-secondary" type="button" id="button-phone">
+                            Category
+                        </button>
+                        <input disabled type="text" class="form-control"
+                               value="{{ post.category.name }}">
+                    </div>
                     <div class="input-group w-75">
                         <textarea class="form-control" cols="50" rows="10" style="resize: none"
                                   disabled>{{ post.text }}</textarea>

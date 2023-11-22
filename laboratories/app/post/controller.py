@@ -6,6 +6,7 @@ from app.common.common import render, to_readable, upload_file, delete_file
 from app.domain.Post import Post, PostType
 from . import post_bp
 from .forms import PostForm
+from ..domain.Category import Category
 
 
 @post_bp.route("/create", methods=['GET'])
@@ -26,8 +27,10 @@ def create_post_handle():
     text = form.text.data
     enabled = form.enabled.data
     post_type = form.type.data
+    category_id = form.categories.data
 
-    post = Post(title=title, text=text, enabled=enabled, type=post_type, user_id=current_user.id)
+    post = Post(title=title, text=text, enabled=enabled, type=post_type, user_id=current_user.id,
+                category_id=category_id)
 
     image = upload_file(form.image.data)
     if image:
@@ -50,6 +53,7 @@ def update_post(id=None):
     form = PostForm()
     form.text.default = post.text
     form.type.default = post.type.name
+    form.categories.default = post.category_id
     form.process()
 
     return render('update_post', form=form, post=post)
@@ -70,6 +74,7 @@ def update_post_handle(id=None):
     post.text = form.text.data
     post.type = PostType[form.type.data]
     post.enabled = form.enabled.data
+    post.category_id = form.categories.data
 
     if form.image.data:
         delete_file(post.image)
