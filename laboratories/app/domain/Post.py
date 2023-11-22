@@ -23,3 +23,4 @@ class Post(data_base.Model):
     created_at: Mapped[str] = mapped_column(DateTime, server_default=func.now(), nullable=False)
     type: Mapped[str] = mapped_column(Enumeration(PostType), nullable=False)
     user_id: Mapped[int] = mapped_column(Integer, ForeignKey('users.id'), nullable=False)
+    category_id: Mapped[int] = mapped_column(Integer, ForeignKey('categories.id'), nullable=False)

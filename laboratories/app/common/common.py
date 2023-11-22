@@ -23,6 +23,7 @@ authorized_menu = {
     'Cookies': ['cookie.info', True],
     'Account': ['user.account', True],
     'Posts': ['post.get_post', True],
+    'Categories': ['post.category.category_list', True],
     'Logout': ['auth.logout', True]
 }
 
