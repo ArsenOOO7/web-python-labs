@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% from "macros/_formRender.html" import render_field %}
+{% block title %}
+    Cookies
+{% endblock %}
+{{ super() }}
+{% block content %}
+    <div style="height: 100%; display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 1rem;">
+        <h1 class="mb-md-5">
+            Add cookie
+        </h1>
+        <form action="{{ url_for('cookie.add_cookie') }}" method="post"
+              class="row d-flex justify-content-center w-50 gap-3">
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-10">
+                    <input type="text" name="cookie_name" id="cookie_name" class="form-control"
+                           placeholder="Cookie name" required>
+                </div>
+            </div>
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-10">
+                    <input type="text" name="cookie_value" id="cookie_value" class="form-control"
+                           placeholder="Cookie value" required>
+                </div>
+            </div>
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-10">
+                    <input type="date" name="expires_at" id="expires_at" class="form-control"
+                           placeholder="Expires at" required>
+                </div>
+            </div>
+            <div class="row d-flex justify-content-center">
+                <div class="col-auto">
+                    <button class="btn btn-primary">
+                        Submit
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <hr>
+    <div class="container-sm w-50">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Cookie</th>
+                <th scope="col">Value</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for cookie, value in cookies %}
+                {% if cookie != 'session' and cookie != 'remember_token' %}
+                    <tr>
+                        <th scope="row">{{ loop.index }}</th>
+                        <td>{{ cookie }}</td>
+                        <td>{{ value }}</td>
+                        <td>
+                            <a href="{{ url_for('cookie.clear_cookie', cookie_name=cookie) }}">
+                                <button class="btn btn-dark">
+                                    Delete
+                                </button>
+                            </a>
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+        <p>
+            <form action="{{ url_for('cookie.clear_cookie') }}" method="post" class="text-center">
+                <button type="submit" class="btn btn-danger">Delete all</button>
+            </form>
+        </p>
+    </div>
+{% endblock %}
