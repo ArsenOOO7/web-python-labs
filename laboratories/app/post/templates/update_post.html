@@ -4,7 +4,12 @@
     Users
 {% endblock %}
 {% block content %}
-    <div style="height: 100%; display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 1rem">
+    <style>
+        li{
+            list-style: none;
+        }
+    </style>
+    <div style="height: 100%; display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 1rem;">
 
         <h1>Update Post</h1>
         <form action="{{ url_for('post.update_post_handle', id=post.id) }}" method="post"
@@ -28,6 +33,11 @@
             <div class="row d-flex justify-content-center">
                 <div class="col-md-5">
                     {{ render_field(form.categories, class='form-select', add_label=True, label_class='form-label') }}
+                </div>
+            </div>
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-7">
+                    {{ render_field(form.tags, class='form-select', add_label=True, label_class='form-label') }}
                 </div>
             </div>
             <div class="row d-flex justify-content-center">

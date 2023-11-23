@@ -4,7 +4,12 @@
     Create post
 {% endblock %}
 {% block content %}
-    <div style="height: 100%; display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 1rem">
+    <style>
+        li{
+            list-style: none;
+        }
+    </style>
+    <div style="height: 100%; display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 1rem; list-style: none">
         <h1>Add Post</h1>
         <form action="{{ url_for('post.create_post_handle') }}" method="post"
               class="row d-flex justify-content-center w-50 gap-3" enctype="multipart/form-data">
@@ -27,6 +32,11 @@
             <div class="row d-flex justify-content-center">
                 <div class="col-md-5">
                     {{ render_field(form.categories, class='form-select', add_label=True, label_class='form-label') }}
+                </div>
+            </div>
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-7">
+                    {{ render_field(form.tags, class='form-select', add_label=True, label_class='form-label') }}
                 </div>
             </div>
             <div class="row d-flex justify-content-center">

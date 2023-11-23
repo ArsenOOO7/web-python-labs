@@ -1,10 +1,16 @@
 from enum import Enum
 
 from sqlalchemy import Integer, String, Enum as Enumeration, DateTime, ForeignKey, Boolean
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql import func
 
 from app import data_base
+
+post_tags = data_base.Table(
+    'post_tags',
+    data_base.Column('post_id', Integer, ForeignKey('posts.id'), primary_key=True),
+    data_base.Column('tag_id', Integer, ForeignKey('tags.id'), primary_key=True)
+)
 
 
 class PostType(Enum):
@@ -24,3 +30,4 @@ class Post(data_base.Model):
     type: Mapped[str] = mapped_column(Enumeration(PostType), nullable=False)
     user_id: Mapped[int] = mapped_column(Integer, ForeignKey('users.id'), nullable=False)
     category_id: Mapped[int] = mapped_column(Integer, ForeignKey('categories.id'), nullable=False)
+    tags = relationship('Tag', secondary=post_tags, backref='posts')

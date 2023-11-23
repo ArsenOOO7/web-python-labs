@@ -2,11 +2,11 @@ from flask import redirect, url_for, flash
 from flask_login import current_user, login_required
 
 from app import data_base
-from app.common.common import render, to_readable, upload_file, delete_file
+from app.common.common import render, upload_file, delete_file
 from app.domain.Post import Post, PostType
 from . import post_bp
 from .forms import PostForm
-from ..domain.Category import Category
+from ..domain.Tag import Tag
 
 
 @post_bp.route("/create", methods=['GET'])
@@ -28,9 +28,10 @@ def create_post_handle():
     enabled = form.enabled.data
     post_type = form.type.data
     category_id = form.categories.data
+    tags = [tag for tag in Tag.query.filter(Tag.name.in_(form.tags.data)).all()]
 
     post = Post(title=title, text=text, enabled=enabled, type=post_type, user_id=current_user.id,
-                category_id=category_id)
+                category_id=category_id, tags=tags)
 
     image = upload_file(form.image.data)
     if image:
@@ -54,6 +55,7 @@ def update_post(id=None):
     form.text.default = post.text
     form.type.default = post.type.name
     form.categories.default = post.category_id
+    form.tags.default = [tag.name for tag in post.tags]
     form.process()
 
     return render('update_post', form=form, post=post)
@@ -75,6 +77,7 @@ def update_post_handle(id=None):
     post.type = PostType[form.type.data]
     post.enabled = form.enabled.data
     post.category_id = form.categories.data
+    post.tags = [tag for tag in Tag.query.filter(Tag.name.in_(form.tags.data)).all()]
 
     if form.image.data:
         delete_file(post.image)

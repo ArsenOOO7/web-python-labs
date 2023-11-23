@@ -1,11 +1,15 @@
+from msilib.schema import CheckBox
+
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileAllowed
-from wtforms import TextAreaField, RadioField, StringField, SelectField, FileField, BooleanField
+from wtforms import TextAreaField, RadioField, StringField, SelectField, FileField, BooleanField, SelectMultipleField
 from wtforms.validators import DataRequired, ValidationError
+from wtforms.widgets import ListWidget, CheckboxInput
 
 from app.common import to_readable
 from app.domain.Category import Category
 from app.domain.Post import Post, PostType
+from app.domain.Tag import Tag
 
 
 class PostForm(FlaskForm):
@@ -31,6 +35,8 @@ class PostForm(FlaskForm):
                              validators=[
                                  DataRequired(message='Category is required.')
                              ])
+    tags = SelectMultipleField('Tags', choices=[(tag.name, tag.name) for tag in Tag.query.all()],
+                               option_widget=CheckboxInput(), widget=ListWidget(prefix_label=False))
     image = FileField('Image',
                       render_kw={'accept': '.jpg, .jpeg, .png'},
                       validators=[
@@ -41,4 +47,4 @@ class PostForm(FlaskForm):
     def validate_categories(self, field):
         category_id = field.data
         if not Category.query.get(category_id):
-            raise ValidationError('Undefined category.');
+            raise ValidationError('Undefined category.')
