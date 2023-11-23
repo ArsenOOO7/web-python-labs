@@ -8,13 +8,13 @@
         <h1>
             Add Tag
         </h1>
-        <form action="{{ url_for('post.category.update_tag', id=category.id) }}" method="post"
+        <form action="{{ url_for('post.tag.update_tag', id=tag.id) }}" method="post"
               class="row d-flex justify-content-center w-50 gap-3">
             {{ form.csrf_token }}
 
             <div class="row d-flex justify-content-center">
                 <div class="col-md-10">
-                    {{ render_field(form.name, class='form-control', value=category.name) }}
+                    {{ render_field(form.name, class='form-control', value=tag.name) }}
                 </div>
             </div>
             <div class="row d-flex justify-content-center">

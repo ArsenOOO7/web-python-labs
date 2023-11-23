@@ -5,7 +5,7 @@ from app import data_base
 from app.common.common import render, to_readable
 from . import tag_bp
 from .forms import TagForm
-from app.domain.Tag import Tag
+from app.domain.Tag import Tag, Color
 
 
 @tag_bp.route("/create", methods=['GET'])
@@ -23,7 +23,8 @@ def create_tag_handle():
         return render('create_tag', form=form)
 
     name = form.name.data
-    tag = Tag(name=name)
+    color = Color[form.color.data]
+    tag = Tag(name=name, color=color)
 
     data_base.session.add(tag)
     data_base.session.commit()
@@ -40,7 +41,8 @@ def update_tag(id=None):
 
     tag = Tag.query.get_or_404(id)
     form = TagForm(tag.id)
-    form.name.data = tag.name
+    form.color.default = tag.color.name
+    form.process()
 
     return render('update_tag', form=form, tag=tag)
 
@@ -58,6 +60,7 @@ def update_tag_handle(id=None):
 
     name = form.name.data
     tag.name = name
+    tag.color = Color[form.color.data]
 
     data_base.session.commit()
     flash("You successfully updated your Tag!", category="success")
