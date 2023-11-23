@@ -2,6 +2,7 @@ from msilib.schema import CheckBox
 
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileAllowed
+from flask_wtf.form import _Auto
 from wtforms import TextAreaField, RadioField, StringField, SelectField, FileField, BooleanField, SelectMultipleField
 from wtforms.validators import DataRequired, ValidationError
 from wtforms.widgets import ListWidget, CheckboxInput
@@ -44,7 +45,16 @@ class PostForm(FlaskForm):
                       ])
     enabled = BooleanField('Enabled', default=True)
 
+    def __init__(self):
+        super().__init__()
+        self.categories.choices = [(category.id, category.name) for category in Category.query.all()]
+
     def validate_categories(self, field):
         category_id = field.data
         if not Category.query.get(category_id):
             raise ValidationError('Undefined category.')
+
+
+class CategorySearchForm(FlaskForm):
+    categories = SelectField('Category',
+                             choices=[(category.id, category.name) for category in Category.query.all()])

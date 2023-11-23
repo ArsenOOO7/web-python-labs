@@ -1,11 +1,11 @@
-from flask import redirect, url_for, flash
+from flask import redirect, url_for, flash, request
 from flask_login import current_user, login_required
 
 from app import data_base
 from app.common.common import render, upload_file, delete_file
 from app.domain.Post import Post, PostType
 from . import post_bp
-from .forms import PostForm
+from .forms import PostForm, CategorySearchForm
 from ..domain.Tag import Tag
 
 
@@ -93,8 +93,14 @@ def update_post_handle(id=None):
 @login_required
 def get_post(id=None):
     if id is None:
-        posts = Post.query.all()
-        return render('posts', posts=posts)
+        form = CategorySearchForm(request.args, meta={'csrf': False})
+        if form.validate():
+            category_id = form.categories.data
+            posts = Post.query.filter(Post.category_id == category_id).all()
+        else:
+            posts = Post.query.all()
+
+        return render('posts', posts=posts, form=form)
 
     post = Post.query.get_or_404(id)
     return render('post', post=post)
