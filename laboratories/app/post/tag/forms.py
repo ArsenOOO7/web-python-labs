@@ -1,8 +1,9 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, HiddenField
+from wtforms import StringField, SelectField
 from wtforms.validators import DataRequired, ValidationError
 
-from app.domain.Tag import Tag
+from app.common import to_readable
+from app.domain.Tag import Tag, Color
 
 
 class TagForm(FlaskForm):
@@ -11,6 +12,7 @@ class TagForm(FlaskForm):
                        validators=[
                            DataRequired(message='Tag name is required.')]
                        )
+    color = SelectField('Color', choices=[(color.name, to_readable(color.value)) for color in Color])
 
     def __init__(self, id=None):
         super().__init__()

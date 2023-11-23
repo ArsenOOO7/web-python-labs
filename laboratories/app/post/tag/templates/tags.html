@@ -24,7 +24,7 @@
                 {% for tag in tags %}
                     <tr>
                         <th scope="row">{{ loop.index }}</th>
-                        <td>{{ tag.name }}</td>
+                        <td><button type="button" class="btn btn-{{ tag.color.value.lower() }}"> {{ tag.name }} </button></td>
                         <td>
                             <a href="{{ url_for('post.tag.update_tag', id=tag.id) }}">
                                 <button class="btn btn-blue">

@@ -2,7 +2,7 @@ from flask import redirect, url_for, flash
 from flask_login import login_required
 
 from app import data_base
-from app.common.common import render
+from app.common.common import render, to_readable
 from . import tag_bp
 from .forms import TagForm
 from app.domain.Tag import Tag
