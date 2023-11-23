@@ -40,7 +40,7 @@ class PostForm(FlaskForm):
     image = FileField('Image',
                       render_kw={'accept': '.jpg, .jpeg, .png'},
                       validators=[
-                          FileAllowed(['.jpg', '.jpeg,' '.png'])
+                          # FileAllowed(['.jpg', '.jpeg,' '.png'])
                       ])
     enabled = BooleanField('Enabled', default=True)
 
