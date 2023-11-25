@@ -68,7 +68,7 @@
                                                         </h5>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <p>Do u really want to delete {{ post.title }}?</p>
+                                                        <p>Do u really want to delete <b>{{ post.title }}</b>?</p>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <a href="{{ url_for('post.delete_post', id=post.id) }}"
