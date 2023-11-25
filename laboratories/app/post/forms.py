@@ -47,7 +47,6 @@ class PostForm(FlaskForm):
 
     def __init__(self):
         super().__init__()
-        self.categories.choices = [(category.id, category.name) for category in Category.query.all()]
 
     def validate_categories(self, field):
         category_id = field.data
