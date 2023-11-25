@@ -90,20 +90,16 @@ def update_post_handle(id=None):
 
 @post_bp.route('/list', methods=['GET'])
 @login_required
-def post_list(id=None):
-    if id is None:
-        form = CategorySearchForm(request.args, meta={'csrf': False})
-        if form.validate():
-            category_id = form.categories.data
-            posts = Post.query.filter(Post.category_id == category_id).all()
-        else:
-            form.categories.errors = []
-            posts = Post.query.all()
+def post_list():
+    form = CategorySearchForm(request.args, meta={'csrf': False})
+    if form.validate():
+        category_id = form.categories.data
+        posts = Post.query.filter(Post.category_id == category_id).all()
+    else:
+        form.categories.errors = []
+        posts = Post.query.all()
 
-        return render('posts', posts=posts, form=form)
-
-    post = Post.query.get_or_404(id)
-    return render('post', post=post)
+    return render('posts', posts=posts, form=form)
 
 
 @post_bp.route('/<int:id>', methods=['GET'])
