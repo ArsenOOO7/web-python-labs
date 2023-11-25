@@ -2,7 +2,7 @@ from flask import redirect, url_for, flash, request
 from flask_login import current_user, login_required
 
 from app import data_base
-from app.common.common import render, upload_file, delete_file
+from app.common.common import render, upload_file, delete_file, to_readable
 from app.domain.Post import Post, PostType
 from . import post_bp
 from .forms import PostForm, CategorySearchForm
@@ -113,7 +113,7 @@ def get_post(id=None):
         return redirect(url_for('post.post_list'))
 
     post = Post.query.get_or_404(id)
-    return render('post', post=post)
+    return render('post', post=post, to_readable=to_readable)
 
 
 @post_bp.route('/<int:id>/delete')

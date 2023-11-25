@@ -19,6 +19,13 @@
                 <div style="margin-top: 1rem; display: flex; flex-direction: column; gap: .2rem; align-items: center;">
                     <div class="input-group w-75">
                         <button disabled class="w-25 btn btn-outline-secondary" type="button" id="button-phone">
+                            Type
+                        </button>
+                        <input disabled type="text" class="form-control"
+                               value="{{ to_readable(post.type.value) }}">
+                    </div>
+                    <div class="input-group w-75">
+                        <button disabled class="w-25 btn btn-outline-secondary" type="button" id="button-phone">
                             Category
                         </button>
                         <input disabled type="text" class="form-control"
@@ -41,6 +48,6 @@
                 </div>
             </div>
         </div>
-        <a href="{{ url_for('post.post_list') }}" class="btn btn-secondary" style="margin-top: 2em">Back</a>
+        <a href="{{ url_for('post.post_list') }}" class="btn btn-secondary" style="margin-top: 2em; margin-bottom: 2em">Back</a>
     </div>
 {% endblock %}
