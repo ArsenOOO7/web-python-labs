@@ -11,7 +11,8 @@
         </a>
     {% endif %}
     <div style="height: 100%; display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 1rem; margin-top: 2rem">
-        <form id="search_form" class="row d-flex justify-content-center w-50 gap-3" method="get" action="{{ url_for('post.post_list') }}">
+        <form id="search_form" class="row d-flex justify-content-center w-50 gap-3" method="get"
+              action="{{ url_for('post.post_list') }}">
             <div class="row d-flex justify-content-center">
                 <div class="col-md-5">
                     {{ render_field(form.categories, class='form-select', add_label=True, label_class='form-label') }}
@@ -28,7 +29,7 @@
     </div>
     <div class="container" style="margin-bottom: 30px; margin-top: 50px">
         <div class="row row-cols-1 row-cols-md-4 g-5">
-            {% for post in posts %}
+            {% for post in posts.items %}
                 <div class="col">
                     <div class="card h-100" style="width: 15rem;">
                         <img src="{{ url_for('static', filename='/images/' + post.image) }}" class="card-img-top"
@@ -64,6 +65,37 @@
                     </div>
                 </div>
             {% endfor %}
+        </div>
+    </div>
+    <hr class="mt-5">
+
+    <div class="container-md d-flex justify-content-center">
+        <div class="row row-cols-1 row-cols-md-4 g-5">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    {% if posts.has_prev %}
+                        <li class="page-item">
+                            <a class="page-link"
+                               href="{{ url_for('post.post_list', categories=form.categories.data or None, page=posts.prev_num) }}">
+                                Previous</a>
+                        </li>
+                    {% endif %}
+                    {% if posts.page and posts.has_prev and posts.has_next %}
+                        <li class="page-item">
+                            <a class="page-link"
+                               href="{{ url_for('post.post_list', categories=form.categories.data or None, page=posts.page) }}">
+                                {{ posts.page }}</a>
+                        </li>
+                    {% endif %}
+                    {% if posts.has_next %}
+                        <li class="page-item">
+                            <a class="page-link"
+                               href="{{ url_for('post.post_list', categories=form.categories.data or None, page=posts.next_num) }}">
+                                Next</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
         </div>
     </div>
 {% endblock %}

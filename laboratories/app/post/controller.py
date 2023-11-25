@@ -1,7 +1,9 @@
 from flask import redirect, url_for, flash, request
 from flask_login import current_user, login_required
+from sqlalchemy import desc
 
 from app import data_base
+from app import profile
 from app.common.common import render, upload_file, delete_file, to_readable
 from app.domain.Post import Post, PostType
 from . import post_bp
@@ -92,13 +94,16 @@ def update_post_handle(id=None):
 @login_required
 def post_list():
     form = CategorySearchForm(request.args, meta={'csrf': False})
+    page = request.args.get('page', 1, type=int)
+
+    query = Post.query
     if form.validate():
         category_id = form.categories.data
-        posts = Post.query.filter(Post.category_id == category_id).all()
+        query = query.filter(Post.category_id == category_id)
     else:
         form.categories.errors = []
-        posts = Post.query.all()
 
+    posts = query.order_by(desc(Post.created_at)).paginate(page=page, per_page=profile.POST_PAGINATION_SIZE)
     return render('posts', posts=posts, form=form)
 
 

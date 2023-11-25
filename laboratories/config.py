@@ -11,6 +11,7 @@ class Config:
     APP_SECRET_KEY = env.get('APP_SECRET') or b"secret"
     IMAGES_FOLDER = IMAGES_FOLDER
     IMAGES_DEFAULT_NAME = IMAGES_DEFAULT_NAME
+    POST_PAGINATION_SIZE = 2
 
     def get_secret_key(self):
         return self.APP_SECRET_KEY
