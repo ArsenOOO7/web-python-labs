@@ -22,9 +22,11 @@ authorized_menu = {
     'Register': ['auth.register', False],
     'Cookies': ['cookie.info', True],
     'Account': ['user.account', True],
-    'Posts': ['post.get_post', True],
-    'Categories': ['post.category.category_list', True],
-    'Tags': ['post.tag.tag_list', True],
+    'Posts': {
+        'Posts': 'post.post_list',
+        'Categories': 'post.category.category_list',
+        'Tags': 'post.tag.tag_list'
+    },
     'Logout': ['auth.logout', True]
 }
 

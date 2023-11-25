@@ -7,18 +7,33 @@
         <div class="navbar-collapse collapse justify-content-end" id="navbarNavDropdown">
             <ul class="navbar-nav">
                 {% for name, path in menu.items() %}
-                <li class="nav-item">
-                    <a href="{{ url_for(path) }}" class="nav-link text-white">{{ name }}</a>
-                </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for(path) }}" class="nav-link text-white">{{ name }}</a>
+                    </li>
                 {% endfor %}
 
                 {% set logged = current_user.is_authenticated %}
                 {% for name, req in authorized_menu.items() %}
-                {% if req[1] == logged %}
-                    <li class="nav-item">
-                        <a href="{{ url_for(req[0]) }}" class="nav-link text-white">{{ name }}</a>
-                    </li>
-                {% endif %}
+                    {% if req is mapping %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-white" id="navbarDarkDropdownMenuLink" data-bs-toggle="dropdown" href="#"
+                               role="button" aria-expanded="false">
+                                {{ name }}
+                            </a>
+                            <ul class="dropdown-menu  dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                                {% for title, path in req.items() %}
+                                    <li><a class="dropdown-item text-white lang"
+                                           href="{{ url_for(path) }}">{{ title }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    {% else %}
+                        {% if req[1] == logged %}
+                            <li class="nav-item">
+                                <a href="{{ url_for(req[0]) }}" class="nav-link text-white">{{ name }}</a>
+                            </li>
+                        {% endif %}
+                    {% endif %}
                 {% endfor %}
             </ul>
         </div>

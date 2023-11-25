@@ -41,14 +41,14 @@ def create_post_handle():
     data_base.session.commit()
 
     flash("You successfully created post!", category='success')
-    return redirect(url_for('post.get_post'))
+    return redirect(url_for('post.post_list'))
 
 
 @post_bp.route("/<int:id>/update", methods=['GET'])
 @login_required
 def update_post(id=None):
     if id is None:
-        return redirect(url_for('post.get_post'))
+        return redirect(url_for('post.post_list'))
 
     post = Post.query.get_or_404(id)
     form = PostForm()
@@ -65,7 +65,7 @@ def update_post(id=None):
 @login_required
 def update_post_handle(id=None):
     if id is None:
-        return redirect(url_for('post.get_post'))
+        return redirect(url_for('post.post_list'))
 
     post = Post.query.get_or_404(id)
     form = PostForm()
@@ -85,22 +85,33 @@ def update_post_handle(id=None):
 
     data_base.session.commit()
     flash("You successfully updated your post!", category="success")
-    return redirect(url_for('post.get_post'))
+    return redirect(url_for('post.post_list'))
 
 
-@post_bp.route('/', methods=['GET'])
-@post_bp.route('/<int:id>', methods=['GET'])
+@post_bp.route('/list', methods=['GET'])
+@post_bp.route('/list/<int:id>', methods=['GET'])
 @login_required
-def get_post(id=None):
+def post_list(id=None):
     if id is None:
         form = CategorySearchForm(request.args, meta={'csrf': False})
         if form.validate():
             category_id = form.categories.data
             posts = Post.query.filter(Post.category_id == category_id).all()
         else:
+            form.categories.errors = []
             posts = Post.query.all()
 
         return render('posts', posts=posts, form=form)
+
+    post = Post.query.get_or_404(id)
+    return render('post', post=post)
+
+
+@post_bp.route('/<int:id>', methods=['GET'])
+@login_required
+def get_post(id=None):
+    if id is None:
+        return redirect(url_for('post.post_list'))
 
     post = Post.query.get_or_404(id)
     return render('post', post=post)
@@ -110,7 +121,7 @@ def get_post(id=None):
 @login_required
 def delete_post(id=None):
     if id is None:
-        return redirect(url_for('post.get_post'))
+        return redirect(url_for('post.post_list'))
 
     post = Post.query.get_or_404(id)
     if post.user_id == current_user.id:
@@ -120,4 +131,4 @@ def delete_post(id=None):
     else:
         flash("You cannot delete this post!", category='danger')
 
-    return redirect(url_for('post.get_post'))
+    return redirect(url_for('post.post_list'))

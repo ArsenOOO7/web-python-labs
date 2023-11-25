@@ -11,7 +11,7 @@
         </a>
     {% endif %}
     <div style="height: 100%; display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 1rem; margin-top: 2rem">
-        <form id="search_form" class="row d-flex justify-content-center w-50 gap-3" method="get" action="{{ url_for('post.get_post') }}">
+        <form id="search_form" class="row d-flex justify-content-center w-50 gap-3" method="get" action="{{ url_for('post.post_list') }}">
             <div class="row d-flex justify-content-center">
                 <div class="col-md-5">
                     {{ render_field(form.categories, class='form-select', add_label=True, label_class='form-label') }}
