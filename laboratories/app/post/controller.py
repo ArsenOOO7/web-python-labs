@@ -89,7 +89,6 @@ def update_post_handle(id=None):
 
 
 @post_bp.route('/list', methods=['GET'])
-@post_bp.route('/list/<int:id>', methods=['GET'])
 @login_required
 def post_list(id=None):
     if id is None:
