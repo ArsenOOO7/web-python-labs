@@ -25,6 +25,7 @@ with app.app_context():
     from .cookie import cookie_bp
     from .feedback import feedback_bp
     from .task import task_bp
+    from .post import post_bp
 
     app.register_blueprint(general_bp)
     app.register_blueprint(auth_bp)
@@ -32,5 +33,6 @@ with app.app_context():
     app.register_blueprint(cookie_bp)
     app.register_blueprint(feedback_bp)
     app.register_blueprint(task_bp)
+    app.register_blueprint(post_bp, url_prefix='/post')
 
 

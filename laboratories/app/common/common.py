@@ -22,6 +22,11 @@ authorized_menu = {
     'Register': ['auth.register', False],
     'Cookies': ['cookie.info', True],
     'Account': ['user.account', True],
+    'Posts': {
+        'Posts': 'post.post_list',
+        'Categories': 'post.category.category_list',
+        'Tags': 'post.tag.tag_list'
+    },
     'Logout': ['auth.logout', True]
 }
 
@@ -49,7 +54,6 @@ def delete_file(file_name):
 def upload_file(file):
     if not file:
         return False
-
     filename, extension = file.filename.rsplit('.', 1)
     uuid_name = uuid.uuid4()
     secured_filename = f"{uuid_name}.{extension}"

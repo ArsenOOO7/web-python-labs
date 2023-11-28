@@ -3,7 +3,7 @@ import datetime
 from flask_bcrypt import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from sqlalchemy import Integer, String, DateTime
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql import func
 
 from app import data_base, login_manager
@@ -26,6 +26,7 @@ class User(data_base.Model, UserMixin):
     avatar_file: Mapped[str] = mapped_column(String(40), nullable=False, server_default='default.jpg', primary_key=False)
     about_me: Mapped[str] = mapped_column(String(500), nullable=True)
     last_seen: Mapped[datetime.datetime] = mapped_column(DateTime, server_default=func.now(), nullable=False)
+    posts = relationship('Post', backref='author')
 
     @property
     def user_password(self):
