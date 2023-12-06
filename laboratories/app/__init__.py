@@ -18,7 +18,6 @@ def create_app(profile_name: str = None):
     app.secret_key = profile.get_secret_key()
 
     data_base.init_app(app)
-    Migrate(app, data_base)
     login_manager.init_app(app)
 
     with app.app_context():
@@ -39,3 +38,7 @@ def create_app(profile_name: str = None):
         app.register_blueprint(post_bp, url_prefix='/post')
 
     return app
+
+
+app = create_app()
+Migrate(app, data_base)

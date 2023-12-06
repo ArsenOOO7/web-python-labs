@@ -35,8 +35,10 @@ class DevProfile(Config):
 
 class TestProfile(Config):
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = env.get('TEST_DATABASE_URI') or 'sqlite:///test.db'
+    SQLALCHEMY_DATABASE_URI = env.get('TEST_DATABASE_URI') or 'sqlite:///laboratory_test.db'
     ENV_NAME = 'test'
+    DEBUG = True
+    WTF_CSRF_ENABLED = False
 
 
 class ProdProfile(Config):

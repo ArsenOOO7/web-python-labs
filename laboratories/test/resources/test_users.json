@@ -1,0 +1,20 @@
+[
+  {
+    "username": "user1",
+    "first_name": "Firstname",
+    "last_name": "Lastname",
+    "password": "1234",
+    "birth_date": "2023-11-01",
+    "email": "user1@mail.com",
+    "about_me": "Something about me"
+  },
+  {
+    "username": "user2",
+    "first_name": "User2Firstname",
+    "last_name": "User2Lastname",
+    "password": "1234",
+    "birth_date": "2023-11-01",
+    "email": "user2@mail.com",
+    "about_me": "Something about me#1"
+  }
+]
