@@ -11,20 +11,19 @@ class Config:
     APP_SECRET_KEY = env.get('APP_SECRET') or b"secret"
     IMAGES_FOLDER = IMAGES_FOLDER
     IMAGES_DEFAULT_NAME = IMAGES_DEFAULT_NAME
-    POST_PAGINATION_SIZE = 2
 
     def get_secret_key(self):
         return self.APP_SECRET_KEY
 
     @staticmethod
-    def get_profile():
+    def get_profile(profile_name: str = None):
         config = {
             DevProfile.ENV_NAME: DevProfile(),
             TestProfile.ENV_NAME: TestProfile(),
             ProdProfile.ENV_NAME: ProdProfile()
         }
-        default_config = 'development'
-        return config.get(env.get('APP_CONFIG') or default_config)
+        default_config = DevProfile.ENV_NAME
+        return config.get(env.get('APP_CONFIG') or profile_name or default_config)
 
 
 class DevProfile(Config):
