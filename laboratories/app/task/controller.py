@@ -21,8 +21,8 @@ def add_task():
     if request.method == 'GET':
         return render('add_task', form=add_task_form)
     if add_task_form.validate_on_submit():
-        task_name = add_task_form.name.data
-        description = add_task_form.description.data
+        task_name = add_task_form.name.data.strip()
+        description = add_task_form.description.data.strip()
 
         existing_task = Task.query.filter(Task.name == task_name).first()
         if existing_task is not None:
@@ -70,8 +70,8 @@ def update_task(id=None):
         flash("There is the Task with this name.", category="danger")
         return redirect(url_for('task.add_task'))
 
-    task.name = name
-    task.description = description
+    task.name = name.strip()
+    task.description = description.strip()
     task.status = status
     data_base.session.commit()
     flash("You have successfully updated task", category='success')

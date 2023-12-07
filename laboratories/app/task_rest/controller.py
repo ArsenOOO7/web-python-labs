@@ -28,8 +28,8 @@ def task_list():
 @task_rest_bp.route("/", methods=['POST'])
 def create_task():
     json = request.json
-    task_name = json['name']
-    task_description = json['description']
+    task_name = json['name'].strip()
+    task_description = json['description'].strip()
 
     task = Task(name=task_name, description=task_description, status=Status.TODO)
     data_base.session.add(task)
@@ -55,8 +55,8 @@ def update_task(id=None):
     task_description = json['description']
     task_status = Status[json['status']]
 
-    task.name = task_name
-    task.description = task_description
+    task.name = task_name.strip()
+    task.description = task_description.strip()
     task.status = task_status
 
     data_base.session.commit()
