@@ -46,7 +46,7 @@ def get_task(id=None):
     task = data_base.get_or_404(Task, id)
     update_form = UpdateTask()
     update_form.description.data = task.description
-    update_form.status.default = task.status.value
+    update_form.status.default = task.status.name
     return render('update_task', task=task, form=update_form)
 
 
