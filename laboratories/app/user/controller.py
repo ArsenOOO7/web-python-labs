@@ -22,7 +22,8 @@ def account():
 def update_account():
     form = UpdateUserForm()
     if not form.validate_on_submit():
-        return render('account', form=form)
+        change_password_form = ChangePassword()
+        return render('account', form=form, change_password_form=change_password_form)
 
     current_user.username = form.username.data
     current_user.email = form.email.data

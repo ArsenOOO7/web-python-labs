@@ -3,9 +3,9 @@ from flask_login import current_user, login_required
 from sqlalchemy import desc
 
 from app import data_base
-from app import profile
 from app.common.common import render, upload_file, delete_file, to_readable
 from app.domain.Post import Post, PostType
+from constant import POST_PAGINATION_SIZE
 from . import post_bp
 from .forms import PostForm, CategorySearchForm
 from ..domain.Tag import Tag
@@ -103,7 +103,7 @@ def post_list():
     else:
         form.categories.errors = []
 
-    posts = query.order_by(desc(Post.created_at)).paginate(page=page, per_page=profile.POST_PAGINATION_SIZE)
+    posts = query.order_by(desc(Post.created_at)).paginate(page=page, per_page=POST_PAGINATION_SIZE)
     return render('posts', posts=posts, form=form)
 
 
