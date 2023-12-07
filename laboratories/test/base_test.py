@@ -4,6 +4,7 @@ import unittest
 from flask_testing import TestCase
 
 from app import create_app, data_base
+from app.domain.Task import Task, Status
 from app.domain.User import User
 from config import TestProfile
 
@@ -16,6 +17,7 @@ class BaseTest(TestCase):
     def setUp(self):
         data_base.create_all()
         self.__load_users()
+        self.__load_tasks()
 
     def tearDown(self):
         data_base.session.remove()
@@ -34,6 +36,18 @@ class BaseTest(TestCase):
                 user.about_me = user_data['about_me']
                 user.user_password = user_data['password']
                 data_base.session.add(user)
+
+            data_base.session.commit()
+
+    def __load_tasks(self):
+        with open('./resources/test_tasks.json') as tasks_file:
+            tasks_data = json.load(tasks_file)
+            for task_data in tasks_data:
+                task = Task()
+                task.name = task_data['name']
+                task.status = Status[task_data['status']]
+                task.description = task_data['description']
+                data_base.session.add(task)
 
             data_base.session.commit()
 
