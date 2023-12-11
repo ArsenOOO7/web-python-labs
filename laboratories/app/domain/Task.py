@@ -21,3 +21,11 @@ class Task(data_base.Model):
     name: Mapped[str] = mapped_column(String, unique=True, nullable=False)
     description: Mapped[str] = mapped_column(String, nullable=True)
     status: Mapped[str] = mapped_column(SQLEnum(Status), nullable=False, default=Status.TODO)
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'description': self.description,
+            'status': self.status.name
+        }
