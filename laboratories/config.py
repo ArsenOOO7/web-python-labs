@@ -12,6 +12,8 @@ class Config:
     IMAGES_FOLDER = IMAGES_FOLDER
     IMAGES_DEFAULT_NAME = IMAGES_DEFAULT_NAME
 
+    JWT_TOKEN_SECRET = "Bearer"
+
     def get_secret_key(self):
         return self.APP_SECRET_KEY
 
