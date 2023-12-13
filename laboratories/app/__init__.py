@@ -21,7 +21,7 @@ def create_app(profile_name: str = None):
 
     data_base.init_app(app)
     login_manager.init_app(app)
-    jwt_utils.init_app(profile.JWT_TOKEN_SECRET)
+    jwt_utils.init_app(profile.get_secret_key(), profile.JWT_TOKEN_SECRET)
 
     with app.app_context():
         from .general import general_bp

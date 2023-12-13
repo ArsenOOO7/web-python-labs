@@ -20,7 +20,7 @@ def login():
         user = User.query.filter(User.email == login_value or User.username == login_value).first()
         if user and user.verify_password(password):
             username = user.username
-            access_token = jwt_utils.generate_token(username, 3)
+            access_token = jwt_utils.generate_token(username, 1)
             return jsonify({'access_token': access_token}), 200
 
     return jsonify({'error': 'Invalid credentials.'}), 401

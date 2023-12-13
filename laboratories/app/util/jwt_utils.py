@@ -11,11 +11,13 @@ from .access_token_exception import AccessTokenException
 class JwtUtils:
     ALGORITHM = 'HS256'
 
-    def __init__(self, secret_key: str = None):
+    def __init__(self, secret_key: str = None, token_key: str = None):
         self.__secret_key = secret_key
+        self.__token_key = token_key
 
-    def init_app(self, secret_key):
+    def init_app(self, secret_key, token_key):
         self.__secret_key = secret_key
+        self.__token_key = token_key
 
     def generate_token(self, subject: str, expires: int):
         payload = {
@@ -29,7 +31,7 @@ class JwtUtils:
         if not jwt_token:
             raise AccessTokenException('Access token is required!')
 
-        if not jwt_token.startswith(self.__secret_key):
+        if not jwt_token.startswith(self.__token_key):
             raise AccessTokenException('Access token is invalid!')
 
         try:
