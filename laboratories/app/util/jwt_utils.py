@@ -48,13 +48,13 @@ class JwtUtils:
     def pre_authorize(self, f):
         @wraps(f)
         def decorated(*args, **kwargs):
-            token = request.headers.get('Authentication')
+            token = request.headers.get('Authorization')
             try:
                 token_subject = self.verify_jwt(token)
                 self.verify_permissions(token_subject)
             except AccessTokenException as e:
                 return jsonify({'message': e.message}), e.response_code
 
-            return f(args, kwargs)
+            return f(*args, **kwargs)
 
         return decorated

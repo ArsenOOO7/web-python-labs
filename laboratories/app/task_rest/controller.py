@@ -1,6 +1,6 @@
 from flask import jsonify, make_response, abort, request
 
-from app import data_base
+from app import data_base, jwt_utils
 from app.domain.Task import Task, Status
 from . import task_rest_bp
 
@@ -12,6 +12,7 @@ def not_found(error):
 
 
 @task_rest_bp.route('/<int:id>', methods=['GET'])
+@jwt_utils.pre_authorize
 def get_task(id=None):
     task = Task.query.get(id)
     if not task:
@@ -21,11 +22,13 @@ def get_task(id=None):
 
 @task_rest_bp.route("/", methods=['GET'])
 @task_rest_bp.route("/list", methods=['GET'])
+@jwt_utils.pre_authorize
 def task_list():
     return jsonify([task.to_dict() for task in Task.query.all()]), 200
 
 
 @task_rest_bp.route("/", methods=['POST'])
+@jwt_utils.pre_authorize
 def create_task():
     json = request.json
     task_name = json['name']
@@ -39,6 +42,7 @@ def create_task():
 
 
 @task_rest_bp.route("/<int:id>", methods=['PUT'])
+@jwt_utils.pre_authorize
 def update_task(id=None):
     json = request.json
 
@@ -64,6 +68,7 @@ def update_task(id=None):
 
 
 @task_rest_bp.route('/<int:id>', methods=['DELETE'])
+@jwt_utils.pre_authorize
 def delete_task(id=None):
     task: Task = Task.query.get(id)
     if not task:
