@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_login import LoginManager
+from flask_marshmallow import Marshmallow
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 
@@ -11,6 +12,7 @@ login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 login_manager.login_message_category = 'info'
 jwt_utils = JwtUtils()
+ma = Marshmallow()
 
 
 def create_app(profile_name: str = None):
@@ -21,6 +23,7 @@ def create_app(profile_name: str = None):
 
     data_base.init_app(app)
     login_manager.init_app(app)
+    ma.init_app(app)
     jwt_utils.init_app(profile.get_secret_key(), profile.JWT_TOKEN_SECRET)
 
     with app.app_context():
@@ -33,6 +36,7 @@ def create_app(profile_name: str = None):
         from .post import post_bp
         from .task_rest import task_rest_bp
         from .auth_rest import oauth_bp
+        from .user_rest import user_rest_bp
 
         app.register_blueprint(general_bp)
         app.register_blueprint(auth_bp)
@@ -43,6 +47,7 @@ def create_app(profile_name: str = None):
         app.register_blueprint(post_bp, url_prefix='/post')
         app.register_blueprint(task_rest_bp, url_prefix='/api/task')
         app.register_blueprint(oauth_bp, url_prefix='/api/auth')
+        app.register_blueprint(user_rest_bp)
 
     return app
 
