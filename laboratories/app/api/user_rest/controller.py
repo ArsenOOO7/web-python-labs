@@ -3,7 +3,7 @@ from flask_restful import Resource
 
 from app import data_base
 from app.domain.User import User
-from app.user_rest.schemas import UserResponseSchema, UserCreateSchema, UserUpdateSchema
+from app.api.user_rest.schemas import UserResponseSchema, UserCreateSchema, UserUpdateSchema
 
 
 class UserRestController(Resource):
@@ -48,6 +48,7 @@ class UserRestController(Resource):
             return {'error': 'User is not found.'}, 404
 
         data_base.session.delete(existent)
+        data_base.session.commit()
         return {}, 204
 
 

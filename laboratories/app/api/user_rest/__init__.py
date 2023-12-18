@@ -7,8 +7,8 @@ from .controller import UserRestController, UserListRestController
 user_rest_bp = Blueprint('user_rest_bp', __name__)
 api = Api(user_rest_bp, errors=user_rest_bp.errorhandler)
 
-api.add_resource(UserRestController, '/api/user', '/api/user/<int:id>')
-api.add_resource(UserListRestController, '/api/user/list')
+api.add_resource(UserRestController, '', '/', '/<int:id>')
+api.add_resource(UserListRestController, '/list')
 
 
 @user_rest_bp.errorhandler(ValidationError)

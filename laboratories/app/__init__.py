@@ -34,9 +34,7 @@ def create_app(profile_name: str = None):
         from .feedback import feedback_bp
         from .task import task_bp
         from .post import post_bp
-        from .task_rest import task_rest_bp
-        from .auth_rest import oauth_bp
-        from .user_rest import user_rest_bp
+        from app.api import api
 
         app.register_blueprint(general_bp)
         app.register_blueprint(auth_bp)
@@ -45,9 +43,7 @@ def create_app(profile_name: str = None):
         app.register_blueprint(feedback_bp)
         app.register_blueprint(task_bp)
         app.register_blueprint(post_bp, url_prefix='/post')
-        app.register_blueprint(task_rest_bp, url_prefix='/api/task')
-        app.register_blueprint(oauth_bp, url_prefix='/api/auth')
-        app.register_blueprint(user_rest_bp)
+        app.register_blueprint(api, url_prefix='/api')
 
     return app
 
