@@ -22,4 +22,4 @@ class HouseholdAppliance(data_base.Model):
     name: Mapped[str] = mapped_column(String(40), nullable=False, unique=True, index=True)
     brand: Mapped[str] = mapped_column(String(40), nullable=False)
     price: Mapped[float] = mapped_column(Float, nullable=False)
-    purchased_at: Mapped[str] = mapped_column(Date, nullable=True)
+    purchased_at: Mapped[datetime.date] = mapped_column(Date, nullable=True)

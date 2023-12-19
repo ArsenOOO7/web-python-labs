@@ -14,7 +14,7 @@ class HouseholdApplianceResponseDto(ma.SQLAlchemySchema):
     name = fields.String(required=True, validate=[validate.Length(min=3, max=40)])
     brand = fields.String(required=True, validate=[validate.Length(max=40)])
     price = fields.Float(required=True, validate=[validate.Range(min=1.0)])
-    purchased_at = fields.String(required=False)
+    purchased_at = fields.Date(required=False)
 
     @validates_schema
     def validate_type(self, data, **kwargs):
