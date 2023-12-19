@@ -15,6 +15,7 @@ class HouseholdApplianceRestController(Resource):
     @jwt_utils.pre_authorize
     def post(self):
         schema = HouseholdApplianceResponseDto()
+        schema.id = None
         household_appliance = schema.load(request.json)
         data_base.session.add(household_appliance)
         data_base.session.commit()
@@ -36,7 +37,7 @@ class HouseholdApplianceRestController(Resource):
         entity = self.__get_existent(id)
         data_base.session.delete(entity)
         data_base.session.commit()
-        return 204
+        return {}, 204
 
     def __get_existent(self, id):
         household_appliance = HouseholdAppliance.query.get(id)
