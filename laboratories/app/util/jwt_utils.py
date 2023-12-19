@@ -5,7 +5,7 @@ from datetime import datetime, UTC, timedelta
 
 from flask import request, jsonify
 
-from .access_token_exception import AccessTokenException
+from .exceptions import AccessTokenException
 
 
 class JwtUtils:
