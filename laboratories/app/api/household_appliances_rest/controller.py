@@ -9,7 +9,7 @@ from app.util.exceptions import EntityNotFoundException
 
 class HouseholdApplianceRestController(Resource):
     def get(self, id):
-        return HouseholdApplianceResponseDto().dump(self.__get_existent(id))
+        return HouseholdApplianceResponseDto().dump(self.__get_existent(id)), 200
 
     def post(self):
         schema = HouseholdApplianceResponseDto()
@@ -17,7 +17,7 @@ class HouseholdApplianceRestController(Resource):
         data_base.session.add(household_appliance)
         data_base.session.commit()
 
-        return schema.dump(household_appliance)
+        return schema.dump(household_appliance), 201
 
     def put(self, id):
         entity = self.__get_existent(id)
@@ -26,7 +26,7 @@ class HouseholdApplianceRestController(Resource):
         entity = schema.load(request.json, instance=entity)
 
         data_base.session.commit()
-        return schema.dump(entity)
+        return schema.dump(entity), 200
 
     def delete(self, id):
         entity = self.__get_existent(id)
