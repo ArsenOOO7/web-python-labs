@@ -44,4 +44,4 @@ class HouseholdApplianceRestController(Resource):
 class HouseholdApplianceListRestController(Resource):
 
     def get(self):
-        pass
+        return HouseholdApplianceResponseDto(many=True).dump(HouseholdAppliance.query.all())
