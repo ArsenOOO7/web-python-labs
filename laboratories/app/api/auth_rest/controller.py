@@ -2,8 +2,8 @@ from flask import request, jsonify
 
 from . import oauth_bp
 from app import jwt_utils
-from ..domain.User import User
-from ..util.access_token_exception import AccessTokenException
+from app.domain.User import User
+from app.util.access_token_exception import AccessTokenException
 
 
 @oauth_bp.errorhandler(AccessTokenException)

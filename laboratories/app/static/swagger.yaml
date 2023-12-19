@@ -1,0 +1,297 @@
+openapi: 3.0.0
+info:
+  title: WebPython 15 Laboratory
+  version: '0.1'
+servers:
+  - url: localhost:5000/api
+paths:
+  /auth/login:
+    post:
+      tags:
+        - Authentication
+      summary: Authentication
+      description: Authentication
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserAuthDto"
+      responses:
+        '200':
+          description: 'ok'
+          content:
+            'application/json':
+              schema:
+                properties:
+                  access_token:
+                    type: string
+        '401':
+          description: 'forbidden'
+          content:
+            'application/json':
+              schema:
+                properties:
+                  error:
+                    type: string
+  /task/{taskId}:
+    get:
+      tags:
+        - Task
+      summary: Get task by id
+      parameters:
+        - in: path
+          name: taskId
+          required: true
+          schema:
+            type: integer
+          description: task id
+      responses:
+        '200':
+          description: 'ok'
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Task"
+        '404':
+          description: 'not found'
+          content:
+            '*/*':
+              schema:
+                properties:
+                  message:
+                    type: string
+    delete:
+      summary: Get task by id
+      tags:
+        - Task
+      parameters:
+        - in: path
+          name: taskId
+          required: true
+          schema:
+            type: integer
+          description: task id
+      responses:
+        '200':
+          description: 'ok'
+        '404':
+          description: 'not found'
+          content:
+            '*/*':
+              schema:
+                properties:
+                  message:
+                    type: string
+  /task/list:
+    get:
+      tags:
+        - Task
+      summary: Get task list
+      responses:
+        '200':
+          description: 'ok'
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Task"
+  /task:
+    post:
+      tags:
+        - Task
+      summary: Create Task
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: "#/components/schemas/Task"
+      responses:
+        '201':
+          description: 'Created'
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Task"
+        '400':
+          description: 'error'
+          content:
+            "*/*":
+              schema:
+                error:
+                  type: string
+    put:
+      tags:
+        - Task
+      summary: Update Task
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: "#/components/schemas/Task"
+      responses:
+        '200':
+          description: 'ok'
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Task"
+        '400':
+          description: 'error'
+          content:
+            "*/*":
+              schema:
+                error:
+                  type: string
+  /user/{userId}:
+    get:
+      tags:
+        - User
+      summary: Get user by id
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+          description: 'user id'
+      responses:
+        '200':
+          description: 'ok'
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserResponseDto'
+    delete:
+      tags:
+        - User
+      summary: Delete user by id
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+          description: 'user id'
+      responses:
+        '204':
+          description: 'no content'
+        '404':
+          description: 'not found'
+          content:
+            '*/*':
+              schema:
+                error:
+                  type: string
+  /user/list:
+    get:
+      summary: 'Get users'
+      tags:
+        - User
+      responses:
+        '200':
+          description: 'ok'
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserResponseDto'
+  /user:
+    post:
+      summary: 'Create user'
+      tags:
+        - User
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: "#/components/schemas/UserCreateDto"
+      responses:
+        '201':
+          description: 'created'
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/UserResponseDto"
+    put:
+      summary: 'Update user'
+      tags:
+        - User
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: "#/components/schemas/UserUpdateDto"
+      responses:
+        '200':
+          description: 'created'
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/UserResponseDto"
+components:
+  schemas:
+    UserAuthDto:
+      type: object
+      properties:
+        login:
+          type: string
+        password:
+          type: string
+    Task:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+          enum: [TODO, IN_PROGRESS, DONE]
+    BaseUserResponse:
+      type: object
+      properties:
+        username:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        email:
+          type: string
+          format: email
+        birth_date:
+          type: string
+          format: date
+        about_me:
+          type: string
+    UserResponseDto:
+      allOf:
+        - $ref: "#/components/schemas/BaseUserResponse"
+        - type: object
+          properties:
+            avatar_file:
+              type: string
+            last_seen:
+              type: string
+              format: date-time
+    UserCreateDto:
+      allOf:
+        - $ref: "#/components/schemas/BaseUserResponse"
+        - type: object
+          properties:
+            password:
+              type: string
+    UserUpdateDto:
+      allOf:
+        - $ref: "#/components/schemas/BaseUserResponse"
+        - type: object
+          properties:
+            id:
+              type: integer
+
+
