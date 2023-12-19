@@ -22,6 +22,7 @@ class HouseholdApplianceRestController(Resource):
     def put(self, id):
         entity = self.__get_existent(id)
         schema = HouseholdApplianceResponseDto()
+        schema.id = id
         entity = schema.load(request.json, instance=entity)
 
         data_base.session.commit()

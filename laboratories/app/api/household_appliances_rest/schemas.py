@@ -9,24 +9,16 @@ class HouseholdApplianceResponseDto(ma.SQLAlchemySchema):
         model = HouseholdAppliance
         load_instance = True
 
-    id = fields.Integer(required=False)
-    type = fields.String(required=True)
+    id = fields.Integer(required=False, dump_only=True)
+    type = fields.Enum(HouseholdApplianceType, required=True, by_value=True)
     name = fields.String(required=True, validate=[validate.Length(min=3, max=40)])
     brand = fields.String(required=True, validate=[validate.Length(max=40)])
     price = fields.Float(required=True, validate=[validate.Range(min=1.0)])
     purchased_at = fields.Date(required=False)
 
     @validates_schema
-    def validate_type(self, data, **kwargs):
-        hha_type = data.get('type')
-        types = [type.value for type in HouseholdApplianceType]
-        if hha_type not in types:
-            raise ValidationError(f"Undefined type {hha_type}")
-
-    @validates_schema
     def validate_name(self, data, **kwargs):
         name = data.get('name')
-        id = data.get('id')
         household_appliance = HouseholdAppliance.query.filter(HouseholdAppliance.name == name).first()
-        if household_appliance and household_appliance.id != id:
+        if household_appliance and household_appliance.id != self.id:
             raise ValidationError('Household appliance with this name is already exists.')
