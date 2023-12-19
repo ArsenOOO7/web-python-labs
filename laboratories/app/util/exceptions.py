@@ -10,7 +10,7 @@ class AccessTokenException(Exception):
 class EntityNotFoundException(Exception):
     """ Raised when entity not found """
 
-    def __init(self, entity_name: str, id: int):
+    def __init__(self, entity_name: str, id: int):
         self.entity_name = entity_name
-        self.message = f"Entity {{entity_name}} with id {id} is not found"
+        self.message = f"Entity {entity_name} with id {id} is not found"
         super().__init__(self.message)

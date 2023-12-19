@@ -51,11 +51,11 @@ class JwtUtils:
         @wraps(f)
         def decorated(*args, **kwargs):
             token = request.headers.get('Authorization')
-            try:
-                token_subject = self.verify_jwt(token)
-                self.verify_permissions(token_subject)
-            except AccessTokenException as e:
-                return jsonify({'message': e.message}), e.response_code
+            # try:
+            token_subject = self.verify_jwt(token)
+            self.verify_permissions(token_subject)
+            # except AccessTokenException as e:
+            #     return jsonify({'message': e.message}), e.response_code
 
             return f(*args, **kwargs)
 

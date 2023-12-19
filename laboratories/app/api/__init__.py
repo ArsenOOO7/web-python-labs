@@ -11,3 +11,5 @@ api.register_blueprint(task_rest_bp, url_prefix='/task')
 api.register_blueprint(oauth_bp, url_prefix='/auth')
 api.register_blueprint(user_rest_bp, url_prefix='/user')
 api.register_blueprint(household_appliances_bp, url_prefix='/householdAppliance')
+
+from . import global_exception_handler
