@@ -1,9 +1,11 @@
-from flask import Flask
+from flask import Flask, url_for
 from flask_login import LoginManager
 from flask_marshmallow import Marshmallow
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
+from flask_swagger_ui import get_swaggerui_blueprint
 
+from app.swagger import swagger_bp
 from app.util.jwt_utils import JwtUtils
 from config import Config
 
@@ -44,6 +46,7 @@ def create_app(profile_name: str = None):
         app.register_blueprint(task_bp)
         app.register_blueprint(post_bp, url_prefix='/post')
         app.register_blueprint(api, url_prefix='/api')
+        app.register_blueprint(swagger_bp)
 
     return app
 
