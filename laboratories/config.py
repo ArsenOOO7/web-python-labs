@@ -28,7 +28,7 @@ class Config:
 
 class DevProfile(Config):
     DEVELOPMENT = True
-    DEBUG = True
+    DEBUG = False
     SQLALCHEMY_DATABASE_URI = env.get('DEV_DATABASE_URI') or 'sqlite:///laboratory_work.db'
     ENV_NAME = 'development'
 
@@ -39,6 +39,7 @@ class TestProfile(Config):
     ENV_NAME = 'test'
     DEBUG = True
     WTF_CSRF_ENABLED = False
+    SERVER_NAME = 'localhost:5000'
 
 
 class ProdProfile(Config):
