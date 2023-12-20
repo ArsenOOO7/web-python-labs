@@ -19,9 +19,7 @@ class TaskTest(BaseTest):
         with self.client:
             response = self.client.get(url_for('task.tasks'))
             self.assert200(response)
-            task_names = ['Task1', 'Task2', 'Task3', 'Task4']
-            for task_name in task_names:
-                self.assertIn(task_name, response.text)
+            [self.assertIn(task_name, response.text) for task_name in ['Task1', 'Task2', 'Task3', 'Task4']]
 
     def test_task_correct_add(self):
         """

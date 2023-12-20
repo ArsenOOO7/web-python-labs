@@ -32,12 +32,10 @@ class PostForm(FlaskForm):
                            DataRequired(message='Type is required.')
                        ])
     categories = SelectField('Category',
-                             choices=[(category.id, category.name) for category in Category.query.all()],
                              validators=[
                                  DataRequired(message='Category is required.')
                              ])
-    tags = SelectMultipleField('Tags', choices=[(tag.name, tag.name) for tag in Tag.query.all()],
-                               option_widget=CheckboxInput(), widget=ListWidget(prefix_label=False))
+    tags = SelectMultipleField('Tags', option_widget=CheckboxInput(), widget=ListWidget(prefix_label=False))
     image = FileField('Image',
                       render_kw={'accept': '.jpg, .jpeg, .png'},
                       validators=[
@@ -46,7 +44,9 @@ class PostForm(FlaskForm):
     enabled = BooleanField('Enabled', default=True)
 
     def __init__(self):
-        super().__init__()
+        super(PostForm, self).__init__()
+        self.categories.choices = [(category.id, category.name) for category in Category.query.all()]
+        self.tags.choices = [(tag.name, tag.name) for tag in Tag.query.all()]
 
     def validate_categories(self, field):
         category_id = field.data

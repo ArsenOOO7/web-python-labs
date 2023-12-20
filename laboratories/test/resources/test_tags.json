@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "name": "Test Tag #1",
+    "color": "SECONDARY"
+  },
+  {
+    "id": 2,
+    "name": "Test Tag #2",
+    "color": "SECONDARY"
+  },
+  {
+    "id": 3,
+    "name": "Test Tag #3",
+    "color": "PRIMARY"
+  },
+  {
+    "id": 4,
+    "name": "Test Tag #4",
+    "color": "SUCCESS"
+  }
+]
