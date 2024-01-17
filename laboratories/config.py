@@ -31,13 +31,13 @@ class Config:
 class DevProfile(Config):
     DEVELOPMENT = True
     DEBUG = False
-    SQLALCHEMY_DATABASE_URI = env.get('DEV_DATABASE_URI') or 'sqlite:///laboratory_work.db'
+    SQLALCHEMY_DATABASE_URI = env.get('DATABASE_URL') or 'sqlite:///laboratory_work.db'
     ENV_NAME = 'development'
 
 
 class TestProfile(Config):
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = env.get('TEST_DATABASE_URI') or 'sqlite:///laboratory_test.db'
+    SQLALCHEMY_DATABASE_URI = env.get('DATABASE_URL') or 'sqlite:///laboratory_test.db'
     ENV_NAME = 'test'
     DEBUG = True
     WTF_CSRF_ENABLED = False
@@ -45,5 +45,6 @@ class TestProfile(Config):
 
 
 class ProdProfile(Config):
-    SQLALCHEMY_DATABASE_URI = env.get('PROD_DATABASE_URI') or 'sqlite:///web_course.db'  # Maybe Postgres is better
+    SQLALCHEMY_DATABASE_URI = (env.get('DATABASE_URL')
+                               or 'postgresql://postgres:postgres@localhost:5432/postgres')
     ENV_NAME = 'prod'
