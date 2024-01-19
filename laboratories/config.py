@@ -48,3 +48,4 @@ class ProdProfile(Config):
     SQLALCHEMY_DATABASE_URI = (env.get('DATABASE_URL')
                                or 'postgresql://postgres:postgres@localhost:5432/postgres')
     ENV_NAME = 'prod'
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
