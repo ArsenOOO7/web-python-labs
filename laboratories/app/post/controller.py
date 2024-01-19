@@ -104,6 +104,7 @@ def update_post_handle(id=None):
 @login_required
 def post_list():
     form = CategorySearchForm(request.args, meta={'csrf': False})
+    form.categories.choices = [(category.id, category.name) for category in Category.query.all()]
     page = request.args.get('page', 1, type=int)
 
     query = Post.query

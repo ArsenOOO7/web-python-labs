@@ -46,5 +46,4 @@ class PostForm(FlaskForm):
 
 
 class CategorySearchForm(FlaskForm):
-    categories = SelectField('Category',
-                             choices=[(category.id, category.name) for category in Category.query.all()])
+    categories = SelectField('Category')
