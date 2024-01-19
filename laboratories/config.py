@@ -31,7 +31,7 @@ class Config:
 class DevProfile(Config):
     DEVELOPMENT = True
     DEBUG = False
-    SQLALCHEMY_DATABASE_URI = env.get('DATABASE_URL') or 'sqlite:///laboratory_work.db'
+    SQLALCHEMY_DATABASE_URI = env.get('DATABASE_URL') or 'sqlite:///laboratory_work_1.db'
     ENV_NAME = 'development'
 
 
