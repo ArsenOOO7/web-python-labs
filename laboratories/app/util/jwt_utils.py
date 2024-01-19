@@ -21,8 +21,8 @@ class JwtUtils:
 
     def generate_token(self, subject: str, expires: int):
         payload = {
-            'exp': datetime.now(UTC) + timedelta(hours=expires),
-            'iat': datetime.now(UTC),
+            'exp': datetime.utcnow() + timedelta(hours=expires),
+            'iat': datetime.utcnow(),
             'sub': subject
         }
         return jwt.encode(payload, self.__secret_key, self.ALGORITHM)
