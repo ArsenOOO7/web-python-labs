@@ -1,9 +1,8 @@
+from datetime import datetime, timedelta
 from functools import wraps
 
 import jwt
-from datetime import datetime, UTC, timedelta
-
-from flask import request, jsonify
+from flask import request
 
 from .exceptions import AccessTokenException
 
