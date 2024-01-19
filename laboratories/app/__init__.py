@@ -34,7 +34,7 @@ def create_app(profile_name: str = None):
         from .cookie import cookie_bp
         from .feedback import feedback_bp
         from .task import task_bp
-        # from .post import post_bp
+        from .post import post_bp
         from app.api import api
 
         app.register_blueprint(general_bp)
@@ -43,7 +43,7 @@ def create_app(profile_name: str = None):
         app.register_blueprint(cookie_bp)
         app.register_blueprint(feedback_bp)
         app.register_blueprint(task_bp)
-        # app.register_blueprint(post_bp, url_prefix='/post')
+        app.register_blueprint(post_bp, url_prefix='/post')
         app.register_blueprint(api, url_prefix='/api')
         app.register_blueprint(swagger_bp)
 

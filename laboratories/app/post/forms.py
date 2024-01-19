@@ -39,11 +39,6 @@ class PostForm(FlaskForm):
                       ])
     enabled = BooleanField('Enabled', default=True)
 
-    def __init__(self):
-        super(PostForm, self).__init__()
-        self.categories.choices = [(category.id, category.name) for category in Category.query.all()]
-        self.tags.choices = [(tag.name, tag.name) for tag in Tag.query.all()]
-
     def validate_categories(self, field):
         category_id = field.data
         if not Category.query.get(category_id):

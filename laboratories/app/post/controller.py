@@ -8,13 +8,20 @@ from app.domain.Post import Post, PostType
 from constant import POST_PAGINATION_SIZE
 from . import post_bp
 from .forms import PostForm, CategorySearchForm
+from ..domain.Category import Category
 from ..domain.Tag import Tag
+
+
+def populate_form(form: PostForm):
+    form.categories.choices = [(category.id, category.name) for category in Category.query.all()]
+    form.tags.choices = [(tag.name, tag.name) for tag in Tag.query.all()]
 
 
 @post_bp.route("/create", methods=['GET'])
 @login_required
 def create_post():
     form = PostForm()
+    populate_form(form)
     return render('create_post', form=form)
 
 
@@ -22,6 +29,7 @@ def create_post():
 @login_required
 def create_post_handle():
     form = PostForm()
+    populate_form(form)
     if not form.validate_on_submit():
         return render('create_post', form=form)
 
@@ -54,6 +62,7 @@ def update_post(id=None):
 
     post = Post.query.get_or_404(id)
     form = PostForm()
+    populate_form(form)
     form.text.default = post.text
     form.type.default = post.type.name
     form.categories.default = post.category_id
@@ -71,6 +80,7 @@ def update_post_handle(id=None):
 
     post = Post.query.get_or_404(id)
     form = PostForm()
+    populate_form(form)
     if not form.validate_on_submit():
         return render('post', form=form, post=post)
 
