@@ -1,15 +1,11 @@
-from msilib.schema import CheckBox
-
 from flask_wtf import FlaskForm
-from flask_wtf.file import FileAllowed
-from flask_wtf.form import _Auto
-from wtforms import TextAreaField, RadioField, StringField, SelectField, FileField, BooleanField, SelectMultipleField
+from wtforms import TextAreaField, StringField, SelectField, FileField, BooleanField, SelectMultipleField
 from wtforms.validators import DataRequired, ValidationError
 from wtforms.widgets import ListWidget, CheckboxInput
 
 from app.common import to_readable
 from app.domain.Category import Category
-from app.domain.Post import Post, PostType
+from app.domain.Post import PostType
 from app.domain.Tag import Tag
 
 

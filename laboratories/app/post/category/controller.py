@@ -3,9 +3,9 @@ from flask_login import login_required
 
 from app import data_base
 from app.common.common import render
+from app.domain.Category import Category
 from . import category_bp
 from .forms import CategoryForm
-from app.domain.Category import Category
 
 
 @category_bp.route("/create", methods=['GET'])

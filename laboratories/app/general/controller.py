@@ -1,5 +1,5 @@
-from . import general_bp
 from app.common.common import render
+from . import general_bp
 
 my_skills = ['Java', 'PHP', 'C++', 'Spring Boot', 'Laravel', 'PostgreSQL', 'MySQL',
              'Elasticsearch', 'JavaScript', 'Angular', 'Python', 'Docker']

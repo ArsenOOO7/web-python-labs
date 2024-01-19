@@ -2,8 +2,8 @@ from flask import request
 from flask_restful import Resource
 
 from app import data_base
-from app.domain.User import User
 from app.api.user_rest.schemas import UserResponseSchema, UserCreateSchema, UserUpdateSchema
+from app.domain.User import User
 
 
 class UserRestController(Resource):

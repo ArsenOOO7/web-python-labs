@@ -1,4 +1,5 @@
 from flask import Blueprint
+
 from .category import category_bp
 from .tag import tag_bp
 

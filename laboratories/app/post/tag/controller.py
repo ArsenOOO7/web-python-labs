@@ -2,10 +2,10 @@ from flask import redirect, url_for, flash
 from flask_login import login_required
 
 from app import data_base
-from app.common.common import render, to_readable
+from app.common.common import render
+from app.domain.Tag import Tag, Color
 from . import tag_bp
 from .forms import TagForm
-from app.domain.Tag import Tag, Color
 
 
 @tag_bp.route("/create", methods=['GET'])

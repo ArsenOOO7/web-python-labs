@@ -1,8 +1,9 @@
 from enum import Enum
 
-from app import data_base
-from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy import Integer, String, Enum as SQLEnum
+from sqlalchemy.orm import Mapped, mapped_column
+
+from app import data_base
 
 
 class Status(Enum):

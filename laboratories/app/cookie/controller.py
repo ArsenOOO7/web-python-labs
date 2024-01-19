@@ -1,8 +1,8 @@
 from flask import request, session, redirect, make_response, url_for, flash
 from flask_login import login_required
 
-from . import cookie_bp
 from app.common.common import render
+from . import cookie_bp
 
 
 @cookie_bp.route('/info')

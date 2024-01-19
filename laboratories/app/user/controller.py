@@ -2,8 +2,8 @@ from flask import redirect, url_for, flash, session
 from flask_login import current_user, login_required
 
 from app import data_base
-from app.domain.User import User
 from app.common.common import render, upload_file, delete_file
+from app.domain.User import User
 from . import user_bp
 from .forms import UpdateUserForm, ChangePassword
 

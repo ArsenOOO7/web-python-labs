@@ -1,7 +1,7 @@
 from marshmallow import validates_schema, fields, ValidationError, validate
 
-from app.domain.User import User
 from app import ma
+from app.domain.User import User
 
 
 class UserResponseSchema(ma.SQLAlchemyAutoSchema):

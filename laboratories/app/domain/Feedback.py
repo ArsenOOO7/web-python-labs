@@ -1,9 +1,10 @@
-from app import data_base
-from sqlalchemy.orm import Mapped, mapped_column
+from enum import Enum
+
 from sqlalchemy import Integer, String, Enum as Enumeration, DateTime
+from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.sql import func
 
-from enum import Enum
+from app import data_base
 
 
 class Satisfaction(Enum):
